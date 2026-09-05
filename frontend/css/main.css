@@ -1,0 +1,332 @@
+/* ===== AgriQueue+ | Core Design System & Variables ===== */
+
+:root {
+  /* Primary Emerald Palette */
+  --green-900: #064E3B;
+  --green-800: #065F46;
+  --green-700: #047857;
+  --green-600: #059669;
+  --green-500: #10B981;
+  --green-100: #D1FAE5;
+  --green-50: #ECFDF5;
+
+  /* Backward Compatible Semantic Mappings */
+  --green: #065F46;
+  --green-mid: #047857;
+  --green-light: #10B981;
+  --green-pale: #ECFDF5;
+
+  /* Warm Ambers & Gold Accents */
+  --amber: #D97706;
+  --amber-mid: #B45309;
+  --amber-light: #F59E0B;
+  --amber-pale: #FEF3C7;
+  --gold: #F59E0B;
+  --gold-pale: #FFFBEB;
+
+  /* Institutional Crisp Surfaces & Neutrals */
+  --white: #FFFFFF;
+  --bg-main: #F8FAFC;
+  --cream: #F8FAFC;
+  --parchment: #F1F5F9;
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --border-focus: #10B981;
+
+  /* Typography Hierarchy */
+  --text: #0F172A;
+  --text-mid: #334155;
+  --text-light: #64748B;
+  --text-muted: #94A3B8;
+
+  /* Functional Status */
+  --danger: #DC2626;
+  --danger-pale: #FEF2F2;
+  --success: #059669;
+  --success-pale: #ECFDF5;
+  --info: #2563EB;
+  --info-pale: #EFF6FF;
+
+  /* Precision Layered Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.07), 0 1px 2px -1px rgba(15, 23, 42, 0.06);
+  --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+  --shadow-glass: 0 12px 36px 0 rgba(6, 78, 59, 0.16);
+
+  /* Radius System */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Rajdhani', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* ===== MODERN SLIM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ===== APP SCREENS ===== */
+.screen {
+  display: none;
+  min-height: 100vh;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ===== ANIMATION UTILITIES & KEYFRAMES ===== */
+.fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.92;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0.3;
+  }
+}
+
+@keyframes tick {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== SECTION HEADER & DIVIDER ===== */
+.section-header {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 1.25rem 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.section-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+  margin-left: 0.5rem;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1rem 0;
+  border: none;
+}
+
+/* ===== LIVE INDICATOR ===== */
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--green-light);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: blink 1.4s infinite ease-in-out;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ===== NOTIFICATION TOAST ===== */
+.notif {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translate(-50%, -20px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-left: 4px solid var(--green-600);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.4rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 280px;
+  max-width: 420px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.notif.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.notif.error {
+  border-left-color: var(--danger);
+  background: #FFFDFD;
+  color: var(--danger);
+}
+
+.notif.warning {
+  border-left-color: var(--amber);
+  background: #FFFDF8;
+  color: var(--amber-mid);
+}
+
+/* Quick demo chips for agent and tests */
+.quick-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--green-50);
+  border: 1px solid var(--green-100);
+  color: var(--green-800);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.quick-chip:hover {
+  background: var(--green-100);
+  border-color: var(--green-500);
+  transform: translateY(-1px);
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .topbar,
+  .bottom-nav,
+  .epass-actions,
+  .notif,
+  #booking-steps {
+    display: none !important;
+  }
+  .epass-card {
+    border: 2px solid #000 !important;
+    box-shadow: none !important;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+}

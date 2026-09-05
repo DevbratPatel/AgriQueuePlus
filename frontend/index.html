@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriQueue+ | Smart MSP Procurement System</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/landing-auth.css" />
+  <link rel="stylesheet" href="css/farmer.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body>
+
+  <!-- ===================== NOTIFICATION TOAST ===================== -->
+  <div id="notif" class="notif">
+    <span id="notif-msg"></span>
+  </div>
+
+  <!-- ===================== 1. LANDING SCREEN ===================== -->
+  <div id="landing" class="screen active">
+    <div class="landing-bg"></div>
+    <div class="landing-content">
+      <div class="logo-badge">🇮🇳 Digital India Initiative</div>
+      <h1 class="landing-title">Agri<span>Queue</span><span style="color:#fff">+</span></h1>
+      <p class="landing-sub">Smart MSP Procurement & Transparency System — No queues, no corruption, just fair prices for every farmer.</p>
+
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('en')">English</button>
+        <button class="lang-btn" onclick="setLang('hi')">हिंदी</button>
+      </div>
+
+      <div class="role-cards">
+        <div class="role-card" onclick="showAuth('farmer')">
+          <span class="role-icon">🌾</span>
+          <div class="role-name">Farmer</div>
+          <div class="role-desc">Book MSP slots, track queue, get QR token</div>
+        </div>
+        <div class="role-card" onclick="showAuth('admin')">
+          <span class="role-icon">🏛️</span>
+          <div class="role-name">Admin / Officer</div>
+          <div class="role-desc">Manage procurement centers & analytics</div>
+        </div>
+        <div class="role-card" onclick="showAuth('distributor')">
+          <span class="role-icon">⚖️</span>
+          <div class="role-name">Center Agent</div>
+          <div class="role-desc">Scan QR, verify farmers, process payments</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live MSP Ticker -->
+    <div class="msp-ticker">
+      <div class="ticker-inner" id="ticker"></div>
+    </div>
+  </div>
+
+  <!-- ===================== 2. AUTH SCREEN ===================== -->
+  <div id="auth" class="screen">
+    <div class="auth-wrapper">
+      <div class="auth-header">
+        <h1 class="auth-title">AgriQueue<span style="color:var(--gold)">+</span></h1>
+        <p class="auth-sub" id="auth-subtitle">Farmer Portal</p>
+      </div>
+      <div class="auth-body fade-in">
+        <div class="auth-tab">
+          <button class="auth-tab-btn active" onclick="switchAuthTab('login')">Login</button>
+          <button class="auth-tab-btn" onclick="switchAuthTab('register')">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form">
+          <div class="form-group">
+            <label class="form-label">Mobile Number <span class="hint">(Registered)</span></label>
+            <input type="tel" class="form-input" id="login-phone" placeholder="Enter 10-digit mobile" maxlength="10" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">OTP <span class="hint">(Sent to your mobile)</span></label>
+            <div class="otp-row">
+              <input type="text" class="otp-digit" maxlength="1" id="otp1" oninput="otpNext(this,'otp2')" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp2" oninput="otpNext(this,'otp3')" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp3" oninput="otpNext(this,'otp4')" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp4" oninput="otpNext(this,null)" />
+            </div>
+            <div style="text-align:center;margin-top:.4rem">
+              <small style="color:var(--text-light)">Demo OTP: </small>
+              <strong style="color:var(--green);cursor:pointer" onclick="fillDemoOTP()">1234</strong>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="doLogin()">Send OTP & Login</button>
+          <div style="margin-top:1rem;text-align:center">
+            <button class="btn btn-outline btn-full" onclick="showLanding()" style="margin-top:.5rem">← Back to Home</button>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" style="display:none">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" id="reg-name" placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number</label>
+            <input type="tel" class="form-input" id="reg-phone" placeholder="10-digit mobile" maxlength="10" />
+          </div>
+          <div class="form-group" id="reg-aadhaar-grp">
+            <label class="form-label">Aadhaar Number <span class="hint">(Last 4 digits)</span></label>
+            <input type="text" class="form-input" id="reg-aadhaar" placeholder="XXXX" maxlength="4" />
+          </div>
+          <div class="form-group" id="reg-state-grp">
+            <label class="form-label">State</label>
+            <select class="form-select" id="reg-state">
+              <option>Punjab</option>
+              <option>Haryana</option>
+              <option>Uttar Pradesh</option>
+              <option>Madhya Pradesh</option>
+              <option>Rajasthan</option>
+              <option>Maharashtra</option>
+              <option>Andhra Pradesh</option>
+              <option>Karnataka</option>
+              <option>Bihar</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="doRegister()">Register & Continue</button>
+          <div style="margin-top:.5rem">
+            <button class="btn btn-outline btn-full" onclick="showLanding()">← Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 3. FARMER APP ===================== -->
+  <div id="farmer-app" class="screen">
+    <div class="topbar">
+      <div class="topbar-brand">Agri<span>Q+</span></div>
+      <div class="topbar-user">
+        <div class="avatar" id="farmer-avatar">R</div>
+        <div class="uname" id="farmer-uname">Ramesh</div>
+      </div>
+    </div>
+
+    <div class="content-area fade-in">
+      <!-- ---- HOME TAB ---- -->
+      <div id="tab-home" class="tab-content active">
+        <!-- Weather Widget -->
+        <div class="weather-card">
+          <div class="weather-icon">⛅</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:baseline;gap:.5rem">
+              <div class="weather-temp">32°C</div>
+              <div class="weather-info">Partly Cloudy · Ludhiana</div>
+            </div>
+            <div class="weather-advice">🌾 Good conditions for wheat harvest. Visit procurement center by noon to avoid afternoon heat.</div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-slots">847</div>
+            <div class="stat-label">Slots Available Today</div>
+          </div>
+          <div class="stat-card amber">
+            <div class="stat-num" id="stat-wait">~18 min</div>
+            <div class="stat-label">Avg. Wait Time</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-num">₹2,275</div>
+            <div class="stat-label">Wheat MSP / Quintal</div>
+          </div>
+          <div class="stat-card danger">
+            <div class="stat-num" id="stat-complaints">12</div>
+            <div class="stat-label">Active Complaints</div>
+          </div>
+        </div>
+
+        <!-- Live Queue -->
+        <div class="card">
+          <div class="card-title"><span class="icon">📊</span> Live Queue Status <span class="live-dot"></span></div>
+          <div style="margin-bottom:.6rem">
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.2rem">
+              <span>Mandi Road Center</span>
+              <span id="queue-pct-1" style="font-weight:600;color:#E53935">High — 78%</span>
+            </div>
+            <div class="queue-bar">
+              <div class="queue-fill queue-high" style="width:78%" id="queue-bar-1"></div>
+            </div>
+            <div class="queue-numbers" id="queue-nums-1" style="margin-top:.4rem;font-size:.75rem;color:var(--text-light)">
+              Current Token: <strong style="color:var(--amber)">A-041</strong> · Your Token: A-055
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.2rem">
+              <span>GT Road Procurement Hub</span>
+              <span id="queue-pct-2" style="font-weight:600;color:#43A047">Low — 24%</span>
+            </div>
+            <div class="queue-bar">
+              <div class="queue-fill queue-low" style="width:24%" id="queue-bar-2"></div>
+            </div>
+            <div style="font-size:.75rem;color:var(--text-light);margin-top:.3rem">No waiting · Walk-in friendly</div>
+          </div>
+        </div>
+
+        <!-- Crowd Prediction Chart -->
+        <div class="card">
+          <div class="card-title"><span class="icon">📈</span> Today's Crowd Prediction</div>
+          <div class="chart-container">
+            <canvas id="crowd-chart"></canvas>
+          </div>
+          <div style="font-size:.78rem;color:var(--text-light);margin-top:.5rem">
+            ⭐ Best time to visit: <strong style="color:var(--green)">6 AM – 9 AM</strong> or <strong style="color:var(--green)">4 PM – 6 PM</strong>
+          </div>
+        </div>
+
+        <!-- MSP Price Board -->
+        <div class="card">
+          <div class="card-title"><span class="icon">💰</span> MSP Price Board 2024-25</div>
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>Crop</th>
+                <th>MSP ₹/Qtl</th>
+                <th>Change</th>
+              </tr>
+            </thead>
+            <tbody id="price-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ---- BOOK SLOT TAB ---- -->
+      <div id="tab-book" class="tab-content" style="display:none">
+        <!-- Step Indicator -->
+        <div class="steps" id="booking-steps">
+          <div class="step-item active" id="step1">
+            <div class="step-dot">1</div>
+            <div class="step-label">Crop Details</div>
+          </div>
+          <div class="step-item" id="step2">
+            <div class="step-dot">2</div>
+            <div class="step-label">Select Center</div>
+          </div>
+          <div class="step-item" id="step3">
+            <div class="step-dot">3</div>
+            <div class="step-label">Pick Slot</div>
+          </div>
+          <div class="step-item" id="step4">
+            <div class="step-dot">4</div>
+            <div class="step-label">Confirm</div>
+          </div>
+        </div>
+
+        <!-- Step 1: Crop Details -->
+        <div id="book-step1" class="fade-in">
+          <div class="card">
+            <div class="card-title"><span class="icon">🌾</span> Crop Details</div>
+            <div class="form-group">
+              <label class="form-label">Select Crop</label>
+              <select class="form-select" id="sel-crop">
+                <option>Wheat (गेहूँ)</option>
+                <option>Paddy / Rice (धान)</option>
+                <option>Maize (मक्का)</option>
+                <option>Gram / Chana (चना)</option>
+                <option>Mustard (सरसों)</option>
+                <option>Soybean (सोयाबीन)</option>
+                <option>Cotton (कपास)</option>
+                <option>Sugarcane (गन्ना)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estimated Quantity <span class="hint">(in Quintals)</span></label>
+              <input type="number" class="form-input" id="sel-qty" placeholder="e.g. 25" min="1" max="500" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Vehicle Type</label>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem">
+                <div class="cat-option" onclick="selectVehicle(this,'Tractor-Trolley')">
+                  <span class="cat-icon">🚜</span><span class="cat-name">Tractor-Trolley</span>
+                </div>
+                <div class="cat-option" onclick="selectVehicle(this,'Tempo')">
+                  <span class="cat-icon">🚐</span><span class="cat-name">Tempo</span>
+                </div>
+                <div class="cat-option" onclick="selectVehicle(this,'Truck')">
+                  <span class="cat-icon">🚛</span><span class="cat-name">Truck</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Moisture Content <span class="hint">(if known)</span></label>
+              <input type="number" class="form-input" id="sel-moisture" placeholder="e.g. 12" min="0" max="30" />
+              <div style="font-size:.75rem;color:var(--text-light);margin-top:.3rem">Max allowed: 14% for wheat</div>
+            </div>
+            <div id="crop-value-box" style="display:none;background:var(--green-pale);border-radius:var(--radius);padding:.8rem;margin-bottom:.5rem">
+              <div style="font-size:.8rem;color:var(--text-light)">Estimated Value at MSP</div>
+              <div id="crop-value" style="font-family:'Rajdhani',sans-serif;font-size:1.6rem;font-weight:700;color:var(--green)">₹0</div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="gotoStep(2)">Next: Select Center →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Select Center -->
+        <div id="book-step2" style="display:none" class="fade-in">
+          <div class="card" style="padding:.8rem">
+            <div class="card-title"><span class="icon">📍</span> Nearby Procurement Centers</div>
+            <div id="centers-list"></div>
+            <div style="display:flex;gap:.5rem;margin-top:.5rem">
+              <button class="btn btn-outline btn-sm" onclick="gotoStep(1)">← Back</button>
+              <button class="btn btn-primary" style="flex:1" onclick="gotoStep(3)">Next: Pick Slot →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Time Slot -->
+        <div id="book-step3" style="display:none" class="fade-in">
+          <div class="card">
+            <div class="card-title"><span class="icon">🕐</span> Select Time Slot</div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input" id="sel-date" />
+            </div>
+            <label class="form-label">Available Slots</label>
+            <div id="slots-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem"></div>
+            <div style="display:flex;gap:.5rem">
+              <button class="btn btn-outline btn-sm" onclick="gotoStep(2)">← Back</button>
+              <button class="btn btn-primary" style="flex:1" onclick="gotoStep(4)">Next: Confirm →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Confirm & QR -->
+        <div id="book-step4" style="display:none" class="fade-in">
+          <div class="card">
+            <div class="card-title"><span class="icon">✅</span> Confirm Booking</div>
+            <div id="booking-summary" style="background:var(--cream);border-radius:var(--radius);padding:.8rem;margin-bottom:1rem;font-size:.88rem"></div>
+            <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:var(--radius);padding:.7rem;font-size:.82rem;margin-bottom:1rem">
+              ⚠️ Bring original Aadhaar & Kisan Credit Card. Crop sample may be tested for moisture before acceptance.
+            </div>
+            <button class="btn btn-primary btn-full" onclick="confirmBooking()">🎟️ Confirm & Get QR Token</button>
+            <button class="btn btn-outline btn-full" style="margin-top:.5rem" onclick="gotoStep(3)">← Back</button>
+          </div>
+          <div id="qr-result" style="display:none" class="fade-in">
+            <!-- Official Mandi E-Pass Card -->
+            <div class="epass-card" id="printable-epass">
+              <div class="epass-header">
+                <div class="epass-gov-badge">🇮🇳 Govt. of India · MSP e-Procurement</div>
+                <div class="epass-title">OFFICIAL MANDI GATE PASS</div>
+                <div class="epass-sub">Authorized Farmer Entry & Direct Weighing Permit</div>
+              </div>
+
+              <div class="epass-body">
+                <!-- High Resolution Real QR Viewfinder -->
+                <div class="epass-qr-container">
+                  <div class="epass-qr-frame">
+                    <div id="qr-div"></div>
+                  </div>
+                  <div style="font-size:.78rem;color:var(--text-light);margin-top:.6rem;display:flex;align-items:center;gap:.3rem">
+                    <span class="live-dot"></span> Scan at Mandi Gate Scanner for Immediate Entry
+                  </div>
+                </div>
+
+                <!-- Big Token Number -->
+                <div class="epass-token-badge">
+                  <div class="epass-token-num" id="token-display">A-043</div>
+                  <div class="epass-token-lbl" id="token-center-name">Mandi Road Procurement Center</div>
+                </div>
+
+                <!-- E-Pass Details Table -->
+                <table class="epass-details-table">
+                  <tr>
+                    <td>Farmer Name</td>
+                    <td id="epass-farmer-name">Ramesh Kumar</td>
+                  </tr>
+                  <tr>
+                    <td>Kisan ID</td>
+                    <td id="epass-kisan-id">KSN-2024-7832</td>
+                  </tr>
+                  <tr>
+                    <td>Crop & Variety</td>
+                    <td id="epass-crop">Wheat (गेहूँ)</td>
+                  </tr>
+                  <tr>
+                    <td>Declared Quantity</td>
+                    <td id="epass-qty">30 Quintals</td>
+                  </tr>
+                  <tr>
+                    <td>Vehicle Type</td>
+                    <td id="epass-vehicle">Tractor-Trolley</td>
+                  </tr>
+                  <tr>
+                    <td>Moisture Level</td>
+                    <td id="epass-moisture">12% (Acceptable)</td>
+                  </tr>
+                  <tr>
+                    <td>Scheduled Date & Slot</td>
+                    <td id="epass-date-slot">01 Sep 2026 · 11:00 AM</td>
+                  </tr>
+                </table>
+
+                <!-- Anti-Fraud Security Hash -->
+                <div class="epass-security-strip">
+                  <span>🔒 SECURE TOKEN</span>
+                  <span id="epass-hash">SHA256: 8F4B-92E1-A043-VERIFIED</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- E-Pass Action Buttons -->
+            <div class="epass-actions">
+              <button class="btn btn-outline" style="flex:1" onclick="printEPass()">🖨️ Print / Save Pass</button>
+              <button class="btn btn-primary" style="flex:1" onclick="showTab('home')">✅ Done — Dashboard</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- MY BOOKINGS TAB ---- -->
+      <div id="tab-bookings" class="tab-content" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="icon">📋</span> My Bookings</div>
+          <div id="my-bookings-list"></div>
+        </div>
+
+        <!-- Payment Tracker -->
+        <div class="card" id="payment-tracker" style="display:none">
+          <div class="card-title"><span class="icon">💳</span> Payment Status Tracker</div>
+          <div class="payment-step">
+            <div class="pstep-dot pstep-done">✓</div>
+            <div class="pstep-info">
+              <div class="pstep-title">Booking Confirmed</div>
+              <div class="pstep-time" id="pt-t1">—</div>
+            </div>
+          </div>
+          <div class="payment-step">
+            <div class="pstep-dot pstep-done">✓</div>
+            <div class="pstep-info">
+              <div class="pstep-title">QR Verified at Center</div>
+              <div class="pstep-time" id="pt-t2">—</div>
+            </div>
+          </div>
+          <div class="payment-step">
+            <div class="pstep-dot pstep-active" id="pstep-3-dot">⏳</div>
+            <div class="pstep-info">
+              <div class="pstep-title">Crop Weighed & Accepted</div>
+              <div class="pstep-time" id="pt-t3">Processing...</div>
+            </div>
+          </div>
+          <div class="payment-step">
+            <div class="pstep-dot pstep-pending" id="pstep-4-dot">4</div>
+            <div class="pstep-info">
+              <div class="pstep-title">Payment Initiated (PFMS)</div>
+              <div class="pstep-time" id="pt-t4">Pending</div>
+            </div>
+          </div>
+          <div class="payment-step">
+            <div class="pstep-dot pstep-pending" id="pstep-5-dot">5</div>
+            <div class="pstep-info">
+              <div class="pstep-title">Amount Credited to Bank</div>
+              <div class="pstep-time" id="pt-t5">Pending</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem">
+            <button class="btn btn-outline btn-full" onclick="showBookingPass()">🎫 View Official QR E-Pass</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- COMPLAINT TAB ---- -->
+      <div id="tab-complaint" class="tab-content" style="display:none">
+        <div class="card">
+          <div class="card-title"><span class="icon">🚨</span> File a Complaint</div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <div class="complaint-category">
+              <div class="cat-option" onclick="selectCat(this,'Corruption / Bribery')">
+                <span class="cat-icon">💸</span><span class="cat-name">Corruption</span>
+              </div>
+              <div class="cat-option" onclick="selectCat(this,'Fake Weighing')">
+                <span class="cat-icon">⚖️</span><span class="cat-name">Fake Weighing</span>
+              </div>
+              <div class="cat-option" onclick="selectCat(this,'Middlemen Interference')">
+                <span class="cat-icon">🕵️</span><span class="cat-name">Middlemen</span>
+              </div>
+              <div class="cat-option" onclick="selectCat(this,'Payment Delayed')">
+                <span class="cat-icon">⏰</span><span class="cat-name">Payment Delay</span>
+              </div>
+              <div class="cat-option" onclick="selectCat(this,'Wrong MSP Rate')">
+                <span class="cat-icon">❌</span><span class="cat-name">Wrong Rate</span>
+              </div>
+              <div class="cat-option" onclick="selectCat(this,'Staff Misbehavior')">
+                <span class="cat-icon">😠</span><span class="cat-name">Staff Issue</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Center / Location</label>
+            <select class="form-select" id="cmp-center">
+              <option>Mandi Road Procurement Center</option>
+              <option>GT Road Procurement Hub</option>
+              <option>Civil Lines Center</option>
+              <option>Sector 21 Mandi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date of Incident</label>
+            <input type="date" class="form-input" id="cmp-date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-input" id="cmp-desc" rows="3" placeholder="Describe what happened clearly..." style="resize:vertical"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Photo Evidence <span class="hint">(Optional)</span></label>
+            <div class="photo-upload" onclick="simulatePhotoUpload()">
+              <div style="font-size:1.8rem">📷</div>
+              <div style="font-size:.85rem;color:var(--text-light);margin-top:.4rem">Tap to add photo</div>
+            </div>
+            <div class="photo-preview" id="photo-preview"></div>
+          </div>
+          <button class="btn btn-amber btn-full" onclick="submitComplaint()">Submit Complaint</button>
+        </div>
+
+        <!-- Past Complaints -->
+        <div class="card">
+          <div class="card-title"><span class="icon">📝</span> My Complaints</div>
+          <div id="complaints-list"></div>
+        </div>
+      </div>
+
+      <!-- ---- PROFILE TAB ---- -->
+      <div id="tab-profile" class="tab-content" style="display:none">
+        <div class="card" style="text-align:center;padding:2rem 1rem">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:1rem" id="profile-avatar-big">R</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700" id="profile-name">Ramesh Kumar</div>
+          <div style="font-size:.88rem;color:var(--text-light);margin-top:.2rem" id="profile-phone">+91 98765 43210</div>
+          <div style="margin-top:.8rem">
+            <span class="badge badge-green">✓ Aadhaar Verified</span>
+            <span class="badge badge-blue">Kisan ID: KSN-2024-7832</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="icon">🏦</span> Bank Details</div>
+          <div style="display:grid;gap:.5rem;font-size:.88rem">
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Bank</span><strong>Punjab National Bank</strong></div>
+            <div class="divider" style="margin:.3rem 0"></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Account</span><strong>XXXXXXXX4521</strong></div>
+            <div class="divider" style="margin:.3rem 0"></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">IFSC</span><strong>PUNB0001234</strong></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="icon">🌾</span> My Land Details</div>
+          <div style="display:grid;gap:.5rem;font-size:.88rem">
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Total Area</span><strong>4.5 Acres</strong></div>
+            <div class="divider" style="margin:.3rem 0"></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Khasra No.</span><strong>214/2, 215/1</strong></div>
+            <div class="divider" style="margin:.3rem 0"></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Village</span><strong>Raipur Kalan, Ludhiana</strong></div>
+            <div class="divider" style="margin:.3rem 0"></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Registered Crops</span><strong>Wheat, Paddy</strong></div>
+          </div>
+        </div>
+        <button class="btn btn-danger btn-full" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <button class="bnav-item active" onclick="showTab('home')" id="bnav-home">
+        <span class="bnav-icon">🏠</span><span>Home</span>
+      </button>
+      <button class="bnav-item" onclick="showTab('book')" id="bnav-book">
+        <span class="bnav-icon">📅</span><span>Book Slot</span>
+      </button>
+      <button class="bnav-item" onclick="showTab('bookings')" id="bnav-bookings">
+        <span class="bnav-icon">🎟️</span><span>My Tokens</span>
+      </button>
+      <button class="bnav-item" onclick="showTab('complaint')" id="bnav-complaint">
+        <span class="bnav-icon">🚨</span><span>Complaint</span>
+      </button>
+      <button class="bnav-item" onclick="showTab('profile')" id="bnav-profile">
+        <span class="bnav-icon">👤</span><span>Profile</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== 4. ADMIN APP ===================== -->
+  <div id="admin-app" class="screen">
+    <div class="topbar admin-topbar">
+      <div class="topbar-brand">Agri<span style="color:var(--gold)">Q+</span> <span style="font-size:.85rem;font-weight:400;opacity:.7">Admin</span></div>
+      <button class="back-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="content-area fade-in">
+      <div class="section-header">📊 Dashboard Overview</div>
+      <div class="stats-grid" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stat-card">
+          <div class="stat-num" id="adm-total">1,284</div>
+          <div class="stat-label">Total Farmers Today</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-num" id="adm-processed">876</div>
+          <div class="stat-label">Slots Processed</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-num">₹2.3 Cr</div>
+          <div class="stat-label">MSP Paid Today</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-num" id="adm-complaints">12</div>
+          <div class="stat-label">Pending Complaints</div>
+        </div>
+      </div>
+
+      <!-- Center-wise chart -->
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Center-wise Throughput</div>
+        <div class="chart-container" style="height:180px">
+          <canvas id="admin-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Active Complaints -->
+      <div class="card">
+        <div class="card-title"><span class="icon">🚨</span> Active Complaints</div>
+        <div id="admin-complaints-list"></div>
+      </div>
+
+      <!-- Procurement Stats -->
+      <div class="card">
+        <div class="card-title"><span class="icon">🌾</span> Crop-wise Procurement Today</div>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Crop</th>
+              <th>Qty (Qtl)</th>
+              <th>Amount</th>
+              <th>Farmers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Wheat</td>
+              <td>15,420</td>
+              <td>₹1.76 Cr</td>
+              <td>423</td>
+            </tr>
+            <tr>
+              <td>Paddy</td>
+              <td>8,120</td>
+              <td>₹1.78 Cr</td>
+              <td>214</td>
+            </tr>
+            <tr>
+              <td>Mustard</td>
+              <td>3,200</td>
+              <td>₹17.6 L</td>
+              <td>89</td>
+            </tr>
+            <tr>
+              <td>Gram</td>
+              <td>1,560</td>
+              <td>₹8.2 L</td>
+              <td>54</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="btn btn-danger btn-full" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- ===================== 5. DISTRIBUTOR / AGENT APP ===================== -->
+  <div id="distributor-app" class="screen">
+    <div class="topbar" style="background:#2E4A1E">
+      <div class="topbar-brand">Agri<span style="color:var(--gold)">Q+</span> <span style="font-size:.85rem;font-weight:400;opacity:.7">Agent</span></div>
+      <button class="back-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="content-area fade-in">
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card">
+          <div class="stat-num" id="agent-done">42</div>
+          <div class="stat-label">Done Today</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-num" id="agent-pending">18</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-num" id="agent-rejected">3</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+      </div>
+
+      <!-- QR Scanner -->
+      <div class="card">
+        <div class="card-title"><span class="icon">📷</span> Scan Farmer QR Code</div>
+        <div class="scan-zone">
+          <div style="font-size:3rem;margin-bottom:.5rem">📱</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:.95rem;color:var(--text-light);margin-bottom:1rem">
+            Point camera at farmer's QR code<br />OR enter token manually below
+          </div>
+          <input type="text" class="scan-input" id="scan-input" placeholder="A-042" maxlength="10" />
+          <div style="display:flex;justify-content:center;gap:.5rem;margin-top:.7rem;flex-wrap:wrap">
+            <span class="quick-chip" onclick="document.getElementById('scan-input').value='A-041';verifyToken()">⚡ Test A-041 (Balwinder)</span>
+            <span class="quick-chip" onclick="document.getElementById('scan-input').value='A-042';verifyToken()">⚡ Test A-042 (Sukhdev)</span>
+          </div>
+          <button class="btn btn-primary" style="margin-top:1rem;width:100%" onclick="verifyToken()">✅ Verify Token</button>
+        </div>
+        <div id="verify-result" style="display:none;margin-top:.8rem"></div>
+      </div>
+
+      <!-- Today's Queue -->
+      <div class="card">
+        <div class="card-title"><span class="icon">📋</span> Today's Queue</div>
+        <div id="agent-queue-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MODULAR JAVASCRIPT SCRIPTS ===================== -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/farmer.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/agent.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
