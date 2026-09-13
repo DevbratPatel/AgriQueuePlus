@@ -1,6 +1,6 @@
 const { getCollection } = require('../config/db');
 
-// @route GET /api/centers
+// Procurement center and slot discovery
 exports.getAllCenters = (req, res) => {
   const centers = getCollection('centers');
   return res.json({
@@ -9,7 +9,6 @@ exports.getAllCenters = (req, res) => {
   });
 };
 
-// @route GET /api/centers/:id/slots
 exports.getCenterSlots = (req, res) => {
   const { id } = req.params;
   const { date } = req.query;

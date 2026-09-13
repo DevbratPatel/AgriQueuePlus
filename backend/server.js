@@ -4,7 +4,10 @@ require('dotenv').config();
 
 const app = express();
 
+const helmet = require('helmet');
+
 // Middlewares
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
@@ -18,13 +21,14 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.json({
     status: 'online',
-    system: 'AgriQueue+ REST API Server',
-    version: '1.0.0',
+    system: 'AgriQueue+ REST API Server (Prototype / Academic)',
+    version: '1.2.0',
     endpoints: [
       '/api/auth',
       '/api/msp',
       '/api/centers',
       '/api/bookings',
+      '/api/weighments',
       '/api/complaints',
       '/api/agent',
       '/api/admin'
@@ -37,6 +41,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/msp', require('./routes/mspRoutes'));
 app.use('/api/centers', require('./routes/centerRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
+app.use('/api/weighments', require('./routes/weighmentRoutes'));
 app.use('/api/complaints', require('./routes/complaintRoutes'));
 app.use('/api/agent', require('./routes/agentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));

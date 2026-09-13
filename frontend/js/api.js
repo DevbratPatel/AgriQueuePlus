@@ -3,15 +3,45 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
 const api = {
-  // Generic Fetch Helper
+  // Token management
+  getToken() {
+    try {
+      return localStorage.getItem('agri_jwt_token') || null;
+    } catch (e) {
+      return null;
+    }
+  },
+
+  setToken(token) {
+    try {
+      if (token) {
+        localStorage.setItem('agri_jwt_token', token);
+      } else {
+        localStorage.removeItem('agri_jwt_token');
+      }
+    } catch (e) {}
+  },
+
+  clearToken() {
+    this.setToken(null);
+  },
+
+  // Generic Fetch Helper with JWT Authorization Injection
   async request(endpoint, options = {}) {
+    const token = this.getToken();
+    const headers = {
+      'Content-Type': 'application/json',
+      ...options.headers
+    };
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers
-        },
-        ...options
+        ...options,
+        headers
       });
       return await response.json();
     } catch (err) {
@@ -29,17 +59,29 @@ const api = {
   },
 
   async login(phone, otp, role) {
-    return this.request('/auth/login', {
+    const res = await this.request('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ phone, otp, role })
     });
+    if (res && res.success && res.token) {
+      this.setToken(res.token);
+    }
+    return res;
   },
 
   async register(data) {
-    return this.request('/auth/register', {
+    const res = await this.request('/auth/register', {
       method: 'POST',
       body: JSON.stringify(data)
     });
+    if (res && res.success && res.token) {
+      this.setToken(res.token);
+    }
+    return res;
+  },
+
+  async getMe() {
+    return this.request('/auth/me');
   },
 
   // MSP Rates
@@ -73,10 +115,26 @@ const api = {
   },
 
   async getPaymentTracker(id) {
-    return this.request(`/bookings/${id}/tracker`);
+    return this.request(`/bookings/${encodeURIComponent(id)}/tracker`);
   },
 
-  // Complaints
+  // Weighbridge & Quality Control
+  async recordWeighment(weighmentData) {
+    return this.request('/weighments', {
+      method: 'POST',
+      body: JSON.stringify(weighmentData)
+    });
+  },
+
+  async getWeighment(bookingId) {
+    return this.request(`/weighments/${encodeURIComponent(bookingId)}`);
+  },
+
+  async getAllWeighments() {
+    return this.request('/weighments');
+  },
+
+  // Complaints & Grievances
   async getComplaints() {
     return this.request('/complaints');
   },
@@ -88,9 +146,10 @@ const api = {
     });
   },
 
-  async resolveComplaint(id) {
-    return this.request(`/complaints/${id}/resolve`, {
-      method: 'PATCH'
+  async resolveComplaint(id, status = 'RESOLVED', resolutionNote = '') {
+    return this.request(`/complaints/${encodeURIComponent(id)}/resolve`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, resolutionNote })
     });
   },
 
@@ -117,7 +176,7 @@ const api = {
     });
   },
 
-  // Admin Analytics
+  // Admin Analytics & Audit Logs
   async getAdminOverview() {
     return this.request('/admin/overview');
   },
@@ -128,5 +187,9 @@ const api = {
 
   async getAdminCropStats() {
     return this.request('/admin/crop-stats');
+  },
+
+  async getAuditLogs() {
+    return this.request('/admin/audit-logs');
   }
 };

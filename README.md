@@ -1,307 +1,253 @@
-# 🌾 AgriQueue+
+# AgriQueue+ 🌾
 
-> **Next-Generation Smart Agricultural Queue Management & Transparent MSP Procurement Platform**
+**GovTech Smart Agricultural Procurement & APMC Mandi Queue Management System**
 
-[![Node.js Version](https://img.shields.io/badge/Node.js-v16%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-5.x-000000?logo=express&logoColor=white)](https://expressjs.com/)
-[![Database](https://img.shields.io/badge/Database-JSON%20DB%20%7C%20MySQL-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![Frontend](https://img.shields.io/badge/Frontend-HTML5%20%7C%20Vanilla%20CSS%20%7C%20ES6%2B-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/)
-[![License](https://img.shields.io/badge/License-Proprietary-informational)](#license)
+AgriQueue+ is an enterprise-grade digital platform engineered to modernize agricultural market yard (APMC Mandi) procurement operations under Minimum Support Price (MSP) schemes. It connects the complete end-to-end supply chain:
+
+$$\text{Farmer Onboarding} \longrightarrow \text{Cryptographic OTP/JWT} \longrightarrow \text{Slot Capacity Booking} \longrightarrow \text{Tamper-Proof QR Gate Pass} \longrightarrow \text{Anti-Replay Gate Clearance} \longrightarrow \text{Electronic Weighbridge} \longrightarrow \text{Moisture \& Quality Grading} \longrightarrow \text{Backend MSP Computation} \longrightarrow \text{6-Stage PFMS DBT Tracking} \longrightarrow \text{Immutable Audit Trail}$$
 
 ---
 
-## 📌 Overview
+## 🌟 Key Modules & Core Capabilities
 
-**AgriQueue+** is an end-to-end digital logistics and queue orchestration ecosystem engineered for agricultural mandi procurement. It modernizes government Minimum Support Price (MSP) grain procurement by eliminating chaotic physical queues, ensuring transparent crop valuation, providing real-time crowd intelligence, and accelerating gate clearance through cryptographic QR entry tokens.
+### 1. 🔐 Cryptographic Authentication & Role-Based Access Control (RBAC)
+- **Zero-Backdoor Authentication**: Eliminates static/hardcoded OTPs.
+- **Random 6-Digit OTP**: Server generates cryptographically random 6-digit verification codes (`crypto.randomInt(100000, 999999)`).
+- **Salted SHA-256 Hashing**: OTPs are hashed with a unique per-request salt and stored with an exact 5-minute expiry timestamp.
+- **Signed JWT Sessions**: Issues signed JSON Web Tokens (`HS256`) containing verified user ID, name, and role.
+- **Role Enforcement**: Strict middleware (`authenticateToken`, `requireRole`) guarding critical operations. Unauthorized attempts (e.g. farmers accessing weighbridge tools or resolving complaints) are blocked with `403 Forbidden`.
 
-Whether accessing from a rural smartphone or an administrative command center, AgriQueue+ delivers a high-speed, dual-mode experience backed by a resilient Node.js REST API with offline local storage fallbacks.
+### 2. 📅 Capacity-Managed Slot Booking & Anti-Overbooking
+- **Live Mandi Quotas**: Enforces strict concurrent capacity limits per center, date, and time window (maximum 20 bookings per slot).
+- **Overbooking Prevention**: Concurrent requests exceeding capacity are rejected with `409 Conflict`.
+- **Cryptographic Gate Pass**: Generates high-resolution digital QR e-Passes formatted as `AGRIQ-V1:BOOKING_ID:TOKEN:SHA256_HASH` and verified by the backend.
 
----
+### 3. 🛡️ Anti-Replay Gate Verification
+- **Digital Check-In**: Mandi security and intake agents scan or enter the pass token.
+- **Anti-Replay Protection**: Verifies pass integrity and checks entry state. Approved entries transition the booking to `GATE_CLEARED`. Re-scanning an already-used QR pass is strictly rejected with `400 Bad Request` (`ALREADY_USED`).
 
-## 🚀 Key Features
+### 4. ⚖️ Electronic Weighbridge & Moisture Quality Gate
+- **Gross & Tare Weighing**: Intake officers record Gross Vehicle Weight and Tare Weight. The backend automatically computes Net Weight in Kilograms and Quintals ($1\text{ Qtl} = 100\text{ kg}$).
+- **Moisture Threshold Enforcement**:
+  - **Wheat**: Maximum allowable moisture $\le 14\%$.
+  - **Paddy**: Maximum allowable moisture $\le 17\%$.
+  - Batches exceeding allowable limits are rejected for quality non-compliance, blocking payment processing.
+- **Quality Grading**: Automated classification (Grade A / Grade B / Below Spec).
+- **Official MSP Valuation**: Final procurement value is calculated exclusively by the backend using prevailing MSP rates (e.g. Wheat @ ₹2,275/Qtl).
+- **Electronic Slip Generation**: Automatically issues official receipts (`WGH-...`) linked directly to the booking.
 
-### 🌾 1. Farmer Portal
-- **Live MSP Rates & Market Trends**: Daily price tickers tracking rate fluctuations across major crops (Wheat, Paddy, Mustard, Cotton, Gram, etc.).
-- **Smart Crop Valuation Calculator**: Instant revenue estimations based on crop type, acreage, and expected yield.
-- **Congestion-Aware Center Selection**: Nearby procurement center discovery displaying real-time distance, capacity, and crowd levels (`Low`, `Medium`, `High`).
-- **4-Step Slot Booking Wizard**: Effortless booking with crop selection, center assignment, time slot scheduling, and vehicle registration.
-- **Digital QR Entry Tokens**: Tamper-proof, scannable QR tokens (e.g., `A-041`) containing encrypted driver and harvest payloads.
-- **PFMS Payment Milestone Tracker**: 4-phase tracking from gate clearance and moisture grading to direct bank disbursement.
-- **Grievance Redressal Desk**: Lodge disputes regarding weighing inaccuracies or payment delays with real-time resolution updates.
+### 5. 💳 Dynamic 6-Stage PFMS Payment State Machine
+Tracks the farmer's grain consignment across 6 sequential procurement stages:
+1. `BOOKED` — Slot reservation confirmed.
+2. `GATE_CLEARED` — Physical mandi entry authenticated.
+3. `WEIGHED` — Gross and Tare weight recorded.
+4. `QUALITY_ACCEPTED` — Moisture & FAQ grade verified.
+5. `PAYMENT_INITIATED` — PFMS Direct Benefit Transfer batch generated.
+6. `PAYMENT_PROCESSED` — Funds disbursed to the farmer's bank account.
 
-### ⚖️ 2. Center Weighing & Gate Agent Portal
-- **Gate Arrival Queue**: Live-updating queue categorizing trucks into `Done`, `Current`, and `Pending`.
-- **Instant QR Code Scanner & Token Lookup**: Fast token validation using automated QR scanner payloads or manual token search.
-- **Truck Gate Entry Clearance**: Verify moisture percentage, crop type, and declared weight before authorizing entry to weighbridge scales.
-- **Queue Throughput Optimization**: Minimize turnaround times and eliminate physical traffic bottlenecks outside mandi gates.
-
-### 🏛️ 3. Admin & District Officer Portal
-- **Executive Command Center**: High-level KPIs tracking registered farmers, active tokens, daily tonnage procured, and total MSP disbursed.
-- **Real-Time Throughput Analytics**: Interactive charts visualizing hourly arrivals, center-wise processing volume, and peak load distributions.
-- **Procurement Distribution by Crop**: Granular financial breakdowns of commodity volumes and state payouts.
-- **Live Grievance Resolution**: Review, inspect, and mark farmer complaints as resolved with instant audit timestamps.
-
----
-
-## 🏗️ System Architecture & Workflow
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Farmer
-    participant App as Frontend (Web/Mobile)
-    participant API as Backend (Node/Express)
-    participant DB as Persistence (JSON / MySQL)
-    actor GateAgent as Mandi Gate Agent
-    actor Officer as District Officer
-
-    Farmer->>App: Check MSP rates & Select Center
-    App->>API: GET /api/centers/:id/slots
-    API->>DB: Query slot availability
-    DB-->>API: Available slots returned
-    API-->>App: Render slot picker
-
-    Farmer->>App: Book slot & submit crop details
-    App->>API: POST /api/bookings
-    API->>DB: Atomically persist booking
-    API-->>App: Return Confirmed Booking + QR Token (A-041)
-
-    Farmer->>GateAgent: Present QR Token at Mandi Gate
-    GateAgent->>App: Scan QR / Enter Token ID
-    App->>API: GET /api/agent/verify/A-041
-    API-->>App: Farmer & payload verified
-    GateAgent->>App: Approve Gate Entry
-    App->>API: POST /api/agent/process-entry
-    API->>DB: Update queue status to "Done"
-
-    Officer->>App: Monitor Mandi operations
-    App->>API: GET /api/admin/overview & /api/admin/throughput
-    API-->>App: Supply live charts & procurement KPIs
-```
+### 6. 📊 Real-Time Admin Analytics & Immutable Audit Trail
+- **Live Metrics**: Real-time aggregation of active farmers, completed weighments, total MSP disbursed, and active grievance alerts.
+- **Immutable Security Audit Log**: Every critical transaction (`LOGIN_SUCCESS`, `BOOKING_CREATED`, `GATE_ENTRY_CLEARED`, `GATE_ENTRY_REJECTED`, `WEIGHMENT_RECORDED`, `COMPLAINT_RESOLVED`) is preserved in an immutable audit ledger (`audit_logs`) accessible to administrators.
+- **Grievance Redressal**: In-app dispute intake with official resolution workflows restricted to authorized administrators.
 
 ---
 
-## 📁 Repository Structure
+## 🏗️ Architecture & Directory Structure
 
 ```
 AgriQueue+/
-├── backend/                      # Node.js & Express REST API Server
-│   ├── .env                      # Environment configuration (Port, DB credentials)
-│   ├── package.json              # Backend dependencies & lifecycle scripts
-│   ├── server.js                 # Server bootstrap, middleware & route mounter (Port 5000)
-│   ├── schema.sql                # Complete MySQL DDL schema and initial seed data
-│   │
+├── backend/
+│   ├── server.js                   # Express server entry point (Port 5000, Helmet, CORS)
+│   ├── schema.sql                  # Relational MySQL schema & seed dataset
 │   ├── config/
-│   │   ├── db.js                 # Atomic JSON persistence adapter (Zero-config mode)
-│   │   ├── mysqlDb.js            # MySQL2 connection pool & parameterized query runner
-│   │   └── initDatabase.js       # Automated database creation & schema migration script
-│   │
-│   ├── controllers/
-│   │   ├── adminController.js    # Executive KPIs, hourly throughput & financial summaries
-│   │   ├── agentController.js    # Gate scanner lookup, entry approvals & rejections
-│   │   ├── authController.js     # User registration, phone OTP dispatch & validation
-│   │   ├── bookingController.js  # Slot reservations, QR tokens & PFMS milestones
-│   │   ├── centerController.js   # Procurement hubs, capacity & time-slot availability
-│   │   ├── complaintController.js# Grievance registration & administrative resolution
-│   │   └── mspController.js      # MSP rates table & harvest valuation calculations
-│   │
+│   │   ├── db.js                   # Atomic JSON persistent storage engine
+│   │   ├── mysqlDb.js              # MySQL connection pool adapter
+│   │   └── initDatabase.js         # Automated MySQL migration runner
+│   ├── middleware/
+│   │   └── auth.js                 # JWT verification, RBAC guard, optionalAuth
+│   ├── services/
+│   │   └── auditService.js         # Centralized immutable security audit logging
+│   ├── controllers/                # Secure business logic controllers
+│   │   ├── authController.js       # Random OTP generation, SHA-256 hashing, JWT login
+│   │   ├── bookingController.js    # Quota validation, cryptographic QR tokens, PFMS tracker
+│   │   ├── agentController.js      # Anti-replay gate verification & entry clearance
+│   │   ├── weighmentController.js  # Electronic weighbridge, moisture test, MSP calculation
+│   │   ├── mspController.js        # MSP rates & crop value estimation
+│   │   ├── centerController.js     # Center listings & time-slot quotas
+│   │   ├── complaintController.js  # Grievance intake & RBAC resolution
+│   │   └── adminController.js      # Live DB aggregations & audit log viewer
+│   ├── routes/                     # Modular API route definitions
+│   │   ├── authRoutes.js
+│   │   ├── bookingRoutes.js
+│   │   ├── agentRoutes.js
+│   │   ├── weighmentRoutes.js
+│   │   ├── mspRoutes.js
+│   │   ├── centerRoutes.js
+│   │   ├── complaintRoutes.js
+│   │   └── adminRoutes.js
+│   ├── tests/
+│   │   └── testPipeline.js         # 16-test automated integration suite
 │   ├── data/
-│   │   └── database.json         # Out-of-the-box persistent local JSON database
-│   │
-│   └── routes/
-│       ├── adminRoutes.js        # /api/admin/*
-│       ├── agentRoutes.js        # /api/agent/*
-│       ├── authRoutes.js         # /api/auth/*
-│       ├── bookingRoutes.js      # /api/bookings/*
-│       ├── centerRoutes.js       # /api/centers/*
-│       ├── complaintRoutes.js    # /api/complaints/*
-│       └── mspRoutes.js          # /api/msp/*
+│   │   └── database.json           # Portable zero-config data store
+│   └── package.json
 │
-├── frontend/                     # Modular Web Application
-│   ├── index.html                # Single-page shell with tabbed role navigation
-│   │
+├── frontend/
+│   ├── index.html                  # GovTech academic prototype single-page web portal
 │   ├── css/
-│   │   ├── main.css              # Design tokens, color system, typography & animations
-│   │   ├── components.css        # Buttons, cards, form inputs, badges & navigation bars
-│   │   ├── landing-auth.css      # Hero presentation, role selection & OTP modals
-│   │   ├── farmer.css            # Booking wizard, crowd indicators, token modal & PFMS
-│   │   └── admin.css             # Admin dashboard analytics & agent scanner views
-│   │
+│   │   ├── main.css                # Design tokens, color system, typography & utilities
+│   │   ├── components.css          # Badges, status chips, responsive tables & modals
+│   │   ├── landing-auth.css        # Hero presentation, 6-digit OTP UI, auth modal
+│   │   ├── farmer.css              # 6-stage PFMS tracker, booking wizard, QR E-Pass
+│   │   └── admin.css               # Analytics dashboards, weighbridge station UI
 │   └── js/
-│       ├── api.js                # API client with automatic offline fallback & sync
-│       ├── app.js                # Application bootstrapper and route dispatcher
-│       ├── auth.js               # Authentication state, session handling & simulated OTP
-│       ├── data.js               # Static defaults, MSP catalog & fallback data
-│       ├── farmer.js             # Farmer workflows, booking wizard & grievance UI
-│       ├── agent.js              # Gate agent scanner, token lookup & clearance logic
-│       ├── admin.js              # Admin KPIs, Chart.js integrations & dispute resolution
-│       ├── state.js              # Central reactive state & localStorage synchronizer
-│       └── utils.js              # Toast notifications, modal handlers & formatters
+│       ├── api.js                  # Bearer token management & REST API client
+│       ├── auth.js                 # 6-digit OTP handling, dev OTP auto-fill & session management
+│       ├── farmer.js               # Slot booking wizard, dynamic tracker & E-Pass render
+│       ├── agent.js                # Anti-replay QR scanner, weighbridge console & slip preview
+│       ├── admin.js                # Chart.js analytics & complaint resolution
+│       ├── data.js                 # Reference commodity rates & initial centers
+│       ├── state.js                # Reactive application state
+│       ├── utils.js                # Bilingual localization (EN/HI) & toast alerts
+│       └── app.js                  # App bootstrap & health poller
 │
-├── README.md                     # Comprehensive project documentation
-└── .gitignore                    # Version control ignore definitions
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## 🛠️ Tech Stack
-
-| Domain | Technology | Description |
-| :--- | :--- | :--- |
-| **Backend Runtime** | [Node.js](https://nodejs.org/) (v16+) | High-throughput asynchronous JavaScript runtime |
-| **Web Framework** | [Express 5.x](https://expressjs.com/) | Lightweight REST API routing and middleware pipeline |
-| **Default Storage** | **Atomic JSON DB** | Zero-setup persistent JSON database (`backend/data/database.json`) |
-| **Enterprise DB** | [MySQL 8.x](https://www.mysql.com/) / `mysql2` | Production-grade relational schema with connection pooling |
-| **Frontend Core** | HTML5, CSS3, Vanilla ES6+ | Lightweight, fast-loading, framework-free architecture |
-| **Data Visualization**| [Chart.js](https://www.chartjs.org/) | Dynamic throughput & commodity distribution charts |
-| **QR Engine** | [QRCode.js](https://github.com/davidshimjs/qrcodejs) | Client-side dynamic QR generation for entry tokens |
-
----
-
-## ⚡ Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js** (v16.0.0 or higher recommended)
-- **npm** (comes packaged with Node.js)
-- A modern web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, or Safari)
-- *(Optional)* **MySQL Server** (if utilizing the relational database backend)
+- **Node.js**: v16 or higher (v18+ recommended)
+- **Modern Web Browser**: Chrome, Edge, Firefox, or Safari
+
+### 1. Install & Run Backend Server
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install dependencies
+npm install
+
+# Start the server (runs on Port 5000)
+npm run dev
+# or
+node server.js
+```
+
+The server initializes at `http://localhost:5000`.
+
+### 2. Database Options
+
+- **Option A (Default - Zero Configuration)**: Runs automatically with `backend/data/database.json`. No separate database server required.
+- **Option B (MySQL Relational Storage)**: Configure credentials in `backend/.env` and execute:
+  ```bash
+  npm run db:init
+  ```
+
+### 3. Open Frontend Application
+
+The backend serves the frontend statically directly from root:
+- Open your browser to **`http://localhost:5000`**
+
+*(Alternatively, run `npx serve frontend -p 3000`)*.
 
 ---
 
-### 1. Backend Setup
+## 🧪 Automated Integration Test Suite
 
-1. Open your terminal and change into the `backend` directory:
-   ```bash
-   cd backend
-   ```
+AgriQueue+ includes a 16-step automated test suite covering the entire pipeline. To execute:
 
-2. Install the necessary dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+cd backend
+npm test
+```
 
-3. Configure environment variables (optional for default setup):
-   - The `.env` file is pre-configured for local execution:
-     ```env
-     PORT=5000
-     DB_HOST=localhost
-     DB_USER=root
-     DB_PASSWORD=root
-     DB_NAME=agriqueue_plus
-     DB_PORT=3306
-     ```
+### Test Suite Output
+```
+======================================================
+🌾 STARTING AGRIQUEUE+ END-TO-END AUTOMATED TEST SUITE
+======================================================
 
-4. *(Optional)* Set up MySQL:
-   If you wish to use MySQL instead of the default atomic JSON database:
-   ```bash
-   npm run db:init
-   ```
-   *This executes `schema.sql` to generate tables and load seed records.*
+• Testing 1.1 Real Random OTP Dispatch & Console Log... ✅ PASSED
+• Testing 1.2 Reject Arbitrary / Fake OTP (1234 backdoor removal)... ✅ PASSED
+• Testing 1.3 Accept Real Hashed OTP & Issue Signed JWT Session... ✅ PASSED
+• Testing 1.4 Acquire Agent & Admin Session Tokens... ✅ PASSED
+• Testing 2.1 Block Unauthorized Farmer from Weighbridge Actions... ✅ PASSED
+• Testing 2.2 Block Unauthorized Farmer from Resolving Complaints... ✅ PASSED
+• Testing 2.3 Allow Admin to Resolve Grievance Ticket... ✅ PASSED
+• Testing 3.1 Successful Mandi Slot Booking with Cryptographic QR Token... ✅ PASSED
+• Testing 4.1 Agent Verifies Authentic Cryptographic QR Pass... ✅ PASSED
+• Testing 4.2 Agent Approves Gate Entry (Status -> GATE_CLEARED)... ✅ PASSED
+• Testing 4.3 Anti-Replay: Reject Second Gate Entry Attempt with Same QR... ✅ PASSED
+• Testing 5.1 Weighbridge Gross & Tare Weighing + Automated MSP Computation... ✅ PASSED
+• Testing 5.2 Quality Rejection on High Moisture (>14% threshold)... ✅ PASSED
+• Testing 6.1 Payment Tracker Displays 6-Stage Real Lifecycle & Timestamps... ✅ PASSED
+• Testing 7.1 Admin Overview Aggregates Live Database Metrics... ✅ PASSED
+• Testing 7.2 Audit Log Records Complete Immutable Security Trail... ✅ PASSED
 
-5. Start the backend server:
-   ```bash
-   npm start
-   ```
-   *The server boots at `http://localhost:5000`.*
-
----
-
-### 2. Frontend Setup
-
-The frontend is completely modular and requires no build steps:
-
-1. Navigate to the `frontend/` directory.
-2. Open `index.html` directly in your browser:
-   - Double-click `frontend/index.html`, **or**
-   - Use a lightweight local server for the best experience:
-     ```bash
-     npx serve frontend
-     ```
-     or using Python:
-     ```bash
-     python -m http.server 8080 --directory frontend
-     ```
-3. The frontend connects to `http://localhost:5000/api` automatically. If the backend is stopped or unavailable, the application gracefully continues in **Offline Mode** using local browser storage!
-
----
-
-## 🔑 Demo & Test Accounts
-
-You can test any role directly using the role switcher on the login screen, or with the pre-seeded credentials below:
-
-| Role | Phone Number | Name / Description | Test Verification Token |
-| :--- | :--- | :--- | :--- |
-| **🌾 Farmer** | `+91 98765 43210` | Ramesh Kumar | `A-041` (Balwinder Kumar, Wheat) |
-| **🏛️ Admin / Officer** | `+91 99999 88888` | District Procurement Officer | Access full mandi analytics |
-| **⚖️ Mandi Gate Agent**| `+91 77777 66666` | Center Weighing Agent | Test scan with `A-041` |
-
-> **OTP Note:** During testing and local development, the system auto-fills or accepts simulated 4-digit OTPs (default: `1234` or any 4 digits).
+======================================================
+🏁 TEST RESULTS: 16 PASSED, 0 FAILED
+======================================================
+```
 
 ---
 
 ## 📡 REST API Reference
 
-All endpoints are prefixed with `/api`.
+### Authentication & Sessions
+| Endpoint | Method | Auth | Description |
+|:---------|:-------|:-----|:------------|
+| `/api/auth/send-otp` | `POST` | Public | Generates random 6-digit OTP, stores salted hash & 5m expiry |
+| `/api/auth/login` | `POST` | Public | Validates OTP hash; issues signed JWT bearer token |
+| `/api/auth/register` | `POST` | Public | Registers new farmer profile |
+| `/api/auth/me` | `GET` | Bearer | Returns verified authenticated identity |
 
-### 🔐 Authentication (`/api/auth`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/auth/send-otp` | Generate and dispatch verification OTP |
-| `POST` | `/api/auth/login` | Verify phone number and OTP code |
-| `POST` | `/api/auth/register` | Register a new farmer or officer profile |
+### Mandi Centers & MSP Rates
+| Endpoint | Method | Auth | Description |
+|:---------|:-------|:-----|:------------|
+| `/api/msp` | `GET` | Public | Retrieves current MSP commodity rates |
+| `/api/msp/calculate` | `GET` | Public | Calculates harvest valuation preview |
+| `/api/centers` | `GET` | Public | Lists procurement centers and capacity metrics |
+| `/api/centers/:id/slots` | `GET` | Public | Returns remaining capacity for selected date & slot |
 
-### 🌾 MSP & Crop Rates (`/api/msp`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/msp` | Retrieve full list of official crop MSP prices and daily changes |
-| `GET` | `/api/msp/calculate?crop=Wheat&acres=5&yield=15` | Calculate expected total yield and gross payout |
+### Slot Booking & PFMS Tracker
+| Endpoint | Method | Auth | Description |
+|:---------|:-------|:-----|:------------|
+| `/api/bookings` | `GET` | Bearer | Returns role-scoped booking records |
+| `/api/bookings` | `POST` | Bearer | Validates slot capacity ($<20$), generates cryptographic QR token |
+| `/api/bookings/:id/tracker` | `GET` | Bearer | Returns 6-stage PFMS lifecycle with real weighment metrics |
 
-### 🏢 Centers & Time Slots (`/api/centers`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/centers` | Fetch all procurement centers with distance & live congestion level |
-| `GET` | `/api/centers/:id/slots` | Fetch all hourly time slots and real-time availability for a center |
+### Gate Clearance & Weighbridge Operations
+| Endpoint | Method | Auth | Description |
+|:---------|:-------|:-----|:------------|
+| `/api/agent/queue` | `GET` | Agent/Admin | Inbound queue manifest |
+| `/api/agent/verify/:token`| `GET` | Agent/Admin | Validates cryptographic QR pass against database hash |
+| `/api/agent/process-entry`| `POST` | Agent/Admin | Approves entry (`GATE_CLEARED`); rejects reused passes |
+| `/api/agent/reject-entry` | `POST` | Agent/Admin | Rejects batch at gate with recorded reason |
+| `/api/weighments` | `POST` | Agent/Admin | Gross/Tare weighing, moisture check ($\le 14\%$), auto MSP |
+| `/api/weighments/:bookingId` | `GET` | Bearer | Retrieves official weighment slip |
 
-### 🎫 Bookings & Tokens (`/api/bookings`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/bookings` | List active bookings (supports `?phone=` filter) |
-| `POST` | `/api/bookings` | Create new slot booking and generate cryptographic QR token |
-| `GET` | `/api/bookings/:id/tracker` | Retrieve 4-stage PFMS payment lifecycle tracking |
-
-### ⚖️ Gate Agent Operations (`/api/agent`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/agent/queue` | Retrieve today's gate arrival queue and statuses |
-| `GET` | `/api/agent/verify/:token` | Lookup farmer booking details by token string (e.g. `A-041`) |
-| `POST` | `/api/agent/process-entry` | Approve truck entry to weighbridge scales |
-| `POST` | `/api/agent/reject-entry` | Reject gate clearance with reason logging |
-
-### 📢 Grievances & Complaints (`/api/complaints`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/complaints` | Fetch grievance list (supports `?phone=` filter) |
-| `POST` | `/api/complaints` | Submit a new grievance report |
-| `PATCH`| `/api/complaints/:id/resolve` | Mark complaint as resolved with timestamp |
-
-### 📊 Administration & Analytics (`/api/admin`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/admin/overview` | Executive statistics (Farmers, active tokens, tons, payout) |
-| `GET` | `/api/admin/throughput` | Hourly queue arrival and clearance chart metrics |
-| `GET` | `/api/admin/crop-stats` | Volume breakdown and budget distribution per commodity |
+### Grievances & Administration
+| Endpoint | Method | Auth | Description |
+|:---------|:-------|:-----|:------------|
+| `/api/complaints` | `GET`, `POST` | Bearer | Submits or views dispute tickets |
+| `/api/complaints/:id/resolve` | `PATCH` | Admin | Resolves dispute ticket |
+| `/api/admin/overview` | `GET` | Admin | Real-time database KPI aggregations |
+| `/api/admin/throughput` | `GET` | Admin | Mandi intake distribution metrics |
+| `/api/admin/crop-stats` | `GET` | Admin | Commodity-wise volume and payout tallies |
+| `/api/admin/audit-logs` | `GET` | Admin | Immutable security and operational audit trail |
 
 ---
 
-## 🛡️ Fault Tolerance & Offline Support
+## 👨‍💻 Author
 
-AgriQueue+ is built to function reliably even in rural areas with intermittent connectivity:
-- **Dual-Mode API Layer** ([`frontend/js/api.js`](frontend/js/api.js)): Detects backend health automatically. If an API call fails or times out, the client seamlessly falls back to browser `localStorage` without interrupting user workflow.
-- **Atomic File Writing** ([`backend/config/db.js`](backend/config/db.js)): The JSON database performs atomic writes, preventing data corruption during concurrent booking updates.
-- **Zero-Dependency Database Start**: You can run the entire system instantly without installing or configuring MySQL.
-
----
+**Devbrat Patel**
+- GitHub: [@DevbratPatel](https://github.com/DevbratPatel)
+- Repository: [DevbratPatel/AgriQueuePlus](https://github.com/DevbratPatel/AgriQueuePlus)
 
 ## 📄 License
 
-Proprietary — Developed for the **AgriQueue+** Smart Agriculture Initiative © 2026. All rights reserved.
+This project is licensed under the [MIT License](LICENSE).

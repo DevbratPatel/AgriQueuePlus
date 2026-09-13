@@ -1,6 +1,5 @@
 const { getCollection, readDB } = require('../config/db');
 
-// @route GET /api/msp
 exports.getAllMSP = (req, res) => {
   const db = readDB();
   return res.json({
@@ -10,7 +9,6 @@ exports.getAllMSP = (req, res) => {
   });
 };
 
-// @route GET /api/msp/calculate
 exports.calculateCropValue = (req, res) => {
   const { crop, qty } = req.query;
   if (!crop || !qty) {
@@ -18,7 +16,20 @@ exports.calculateCropValue = (req, res) => {
   }
 
   const db = readDB();
-  const price = db.cropPriceMap[crop] || 2275;
+  const priceMap = db.cropPriceMap || {};
+  let price = priceMap[crop];
+
+  if (!price) {
+    const cleanCrop = crop.toLowerCase().trim();
+    for (const [k, v] of Object.entries(priceMap)) {
+      if (k.toLowerCase().includes(cleanCrop) || cleanCrop.includes(k.toLowerCase().split(' ')[0])) {
+        price = v;
+        break;
+      }
+    }
+  }
+  price = price || 2275;
+
   const quantity = parseFloat(qty) || 0;
   const totalValue = quantity * price;
 

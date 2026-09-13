@@ -161,10 +161,10 @@
 }
 
 .epass-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   color: #ffffff;
 }
 
@@ -251,10 +251,11 @@
 }
 
 .epass-token-num {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 2.6rem;
-  font-weight: 700;
-  letter-spacing: 5px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: "tnum" 1, "cv05" 1;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
   line-height: 1;
   color: #ffffff;
 }
@@ -353,9 +354,15 @@
 }
 
 .cat-option .cat-icon {
-  font-size: 1.6rem;
-  display: block;
-  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+  color: var(--green-700);
+}
+
+.cat-option.selected .cat-icon {
+  color: var(--amber-mid);
 }
 
 .cat-option .cat-name {

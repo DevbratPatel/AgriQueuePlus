@@ -87,6 +87,42 @@ CREATE TABLE IF NOT EXISTS agent_queue (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 8. WEIGHBRIDGE & QUALITY CONTROL TABLE
+CREATE TABLE IF NOT EXISTS weighments (
+    id VARCHAR(50) PRIMARY KEY,
+    booking_id VARCHAR(50) NOT NULL,
+    token VARCHAR(20) NOT NULL,
+    farmer_name VARCHAR(100) NOT NULL,
+    crop VARCHAR(100) NOT NULL,
+    gross_weight DECIMAL(10, 2) NOT NULL,
+    tare_weight DECIMAL(10, 2) NOT NULL,
+    net_weight_kg DECIMAL(10, 2) NOT NULL,
+    net_quintals DECIMAL(10, 2) NOT NULL,
+    moisture DECIMAL(5, 2) NOT NULL,
+    moisture_threshold DECIMAL(5, 2) NOT NULL DEFAULT 14.00,
+    quality_grade VARCHAR(50) NOT NULL,
+    status ENUM('ACCEPTED', 'REJECTED') NOT NULL DEFAULT 'ACCEPTED',
+    rejection_reason TEXT NULL,
+    msp_rate INT NOT NULL,
+    final_amount DECIMAL(12, 2) NOT NULL,
+    weighed_by VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE
+);
+
+-- 9. IMMUTABLE PROCUREMENT & SECURITY AUDIT LOG TABLE
+CREATE TABLE IF NOT EXISTS audit_logs (
+    id VARCHAR(50) PRIMARY KEY,
+    user_id VARCHAR(50) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    action VARCHAR(100) NOT NULL,
+    entity VARCHAR(50) NOT NULL,
+    entity_id VARCHAR(50) NOT NULL,
+    details JSON NULL,
+    ip VARCHAR(50) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- =======================================================
 -- SEED INITIAL DATA
 -- =======================================================

@@ -129,13 +129,23 @@
     }
   ],
   "cropPriceMap": {
+    "Wheat": 2275,
     "Wheat (गेहूँ)": 2275,
+    "Paddy": 2183,
+    "Paddy (धान)": 2183,
     "Paddy / Rice (धान)": 2183,
+    "Maize": 2090,
     "Maize (मक्का)": 2090,
+    "Gram": 5440,
+    "Gram (चना)": 5440,
     "Gram / Chana (चना)": 5440,
+    "Mustard": 5650,
     "Mustard (सरसों)": 5650,
+    "Soybean": 4892,
     "Soybean (सोयाबीन)": 4892,
+    "Cotton": 7121,
     "Cotton (कपास)": 7121,
+    "Sugarcane": 340,
     "Sugarcane (गन्ना)": 340
   },
   "centers": [
@@ -232,8 +242,257 @@
   ],
   "bookings": [
     {
+      "id": "BK-1789293342194",
+      "token": "A-055",
+      "qrHash": "955f3ae5116edf89f4947fbf9166d4f09e2757daaa7565e5353d8ca22829b668",
+      "qrUsed": false,
+      "farmerId": "USR-1788197825576",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 89578 24566",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 105,
+      "expectedQty": 105,
+      "estimatedAmount": 238875,
+      "actualQty": null,
+      "actualAmount": null,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-13",
+      "slot": "6:00 AM",
+      "status": "Confirmed",
+      "paymentStatus": "AWAITING_GATE_ARRIVAL",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293342194:A-055:e27642cf2abd044a11085a8c4d09f268db95488d",
+      "createdAt": "2026-09-13T09:55:42.194Z",
+      "gateClearedAt": null,
+      "weighedAt": null,
+      "paymentInitiatedAt": null
+    },
+    {
+      "id": "BK-1789293174757",
+      "token": "A-054",
+      "qrHash": "968825705e7807675a8dd618160906f05facccdf6bb5170864b0677e956cc4d8",
+      "qrUsed": true,
+      "farmerId": "USR-001",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 20,
+      "expectedQty": 20,
+      "estimatedAmount": 45500,
+      "actualQty": null,
+      "actualAmount": null,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-22",
+      "slot": "11:00 AM",
+      "status": "QUALITY_REJECTED",
+      "paymentStatus": "PAYMENT_REJECTED",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293174757:A-054:c67cc22bdbc9aac54f2664dac5bc178dbe80ce91",
+      "createdAt": "2026-09-13T09:52:54.757Z",
+      "gateClearedAt": "2026-09-13T09:52:56.377Z",
+      "weighedAt": null,
+      "paymentInitiatedAt": null,
+      "qualityGrade": "Below FAQ (Excess Moisture)",
+      "rejectionReason": "Moisture reading 16.5% exceeds the statutory threshold of 14% for Wheat"
+    },
+    {
+      "id": "BK-1789293174659",
+      "token": "A-053",
+      "qrHash": "8e79d0da2a7bd191034bde5791a1f14c092078647345f97d2d77a68d5f0c75c6",
+      "qrUsed": true,
+      "farmerId": "USR-001",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 35,
+      "expectedQty": 35,
+      "estimatedAmount": 79625,
+      "actualQty": 113,
+      "actualAmount": 257075,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12.5,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-20",
+      "slot": "10:00 AM",
+      "status": "QUALITY_ACCEPTED",
+      "paymentStatus": "PAYMENT_INITIATED",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293174659:A-053:0f67d3fd8d8aaf85d3f9d1019a4fdbb412838aa4",
+      "createdAt": "2026-09-13T09:52:54.659Z",
+      "gateClearedAt": "2026-09-13T09:52:54.696Z",
+      "weighedAt": "2026-09-13T09:52:54.726Z",
+      "paymentInitiatedAt": "2026-09-13T09:52:54.726Z",
+      "netWeightKg": 11300,
+      "qualityGrade": "Grade-A (FAQ Prime)",
+      "weighmentId": "WGH-1789293174726"
+    },
+    {
+      "id": "BK-1789293087938",
+      "token": "A-052",
+      "qrHash": "ff4a570c18838ea8252b198bd08f35b01437938a779445c6e0f2bf0d21d786ab",
+      "qrUsed": true,
+      "farmerId": "USR-001",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 20,
+      "expectedQty": 20,
+      "estimatedAmount": 45500,
+      "actualQty": null,
+      "actualAmount": null,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-22",
+      "slot": "11:00 AM",
+      "status": "QUALITY_REJECTED",
+      "paymentStatus": "PAYMENT_REJECTED",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293087938:A-052:84365407c6aae962821f623d71e45e2e8ec93a39",
+      "createdAt": "2026-09-13T09:51:27.938Z",
+      "gateClearedAt": "2026-09-13T09:51:27.957Z",
+      "weighedAt": null,
+      "paymentInitiatedAt": null,
+      "qualityGrade": "Below FAQ (Excess Moisture)",
+      "rejectionReason": "Moisture reading 16.5% exceeds the statutory threshold of 14% for Wheat"
+    },
+    {
+      "id": "BK-1789293087896",
+      "token": "A-051",
+      "qrHash": "8c1b4b36f9f95ac5a16ea586ddc1358b76bd4a59521c9de7cbe8a978d14eccc5",
+      "qrUsed": true,
+      "farmerId": "USR-001",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 35,
+      "expectedQty": 35,
+      "estimatedAmount": 79625,
+      "actualQty": null,
+      "actualAmount": null,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12.5,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-20",
+      "slot": "10:00 AM",
+      "status": "GATE_CLEARED",
+      "paymentStatus": "AWAITING_WEIGHBRIDGE",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293087896:A-051:11c9bd03525b0d25cc7c99637e9fcfccf3dfb8c7",
+      "createdAt": "2026-09-13T09:51:27.896Z",
+      "gateClearedAt": "2026-09-13T09:51:27.911Z",
+      "weighedAt": null,
+      "paymentInitiatedAt": null
+    },
+    {
+      "id": "BK-1789293068841",
+      "token": "A-050",
+      "qrHash": "00d53c65bb8664bdf643587ed8fb7f4252077091d958d64c964a186887574160",
+      "qrUsed": true,
+      "farmerId": "USR-001",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 20,
+      "expectedQty": 20,
+      "estimatedAmount": 45500,
+      "actualQty": null,
+      "actualAmount": null,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-22",
+      "slot": "11:00 AM",
+      "status": "QUALITY_REJECTED",
+      "paymentStatus": "PAYMENT_REJECTED",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293068841:A-050:7ffa41fc95573cdc3cd4e91c4690ca9305116183",
+      "createdAt": "2026-09-13T09:51:08.841Z",
+      "gateClearedAt": "2026-09-13T09:51:08.849Z",
+      "weighedAt": null,
+      "paymentInitiatedAt": null,
+      "qualityGrade": "Below FAQ (Excess Moisture)",
+      "rejectionReason": "Moisture reading 16.5% exceeds the statutory threshold of 14% for Wheat"
+    },
+    {
+      "id": "BK-1789293068750",
+      "token": "A-049",
+      "qrHash": "ce812785470374db26e0d04cf9cbd9124eceb1bcb9053ea4731bda8d0cdc8829",
+      "qrUsed": true,
+      "farmerId": "USR-001",
+      "farmerName": "Ramesh Kumar",
+      "farmerPhone": "+91 98765 43210",
+      "crop": "Wheat (गेहूँ)",
+      "qty": 35,
+      "expectedQty": 35,
+      "estimatedAmount": 79625,
+      "actualQty": 113,
+      "actualAmount": 257075,
+      "vehicle": "Tractor-Trolley",
+      "declaredMoisture": 12.5,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-20",
+      "slot": "10:00 AM",
+      "status": "QUALITY_ACCEPTED",
+      "paymentStatus": "PAYMENT_INITIATED",
+      "price": 2275,
+      "qrPayload": "AGRIQ-V1:BK-1789293068750:A-049:f145606c61cdd283330b9fac70c27127b4778ad5",
+      "createdAt": "2026-09-13T09:51:08.750Z",
+      "gateClearedAt": "2026-09-13T09:51:08.779Z",
+      "weighedAt": "2026-09-13T09:51:08.806Z",
+      "paymentInitiatedAt": "2026-09-13T09:51:08.806Z",
+      "netWeightKg": 11300,
+      "qualityGrade": "Grade-A (FAQ Prime)",
+      "weighmentId": "WGH-1789293068806"
+    },
+    {
+      "id": "BK-1789194035313",
+      "token": "A-048",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Wheat (गेहूँ)",
+      "qty": "25",
+      "vehicle": "Tractor-Trolley",
+      "moisture": "12",
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-12",
+      "slot": "7:00 AM",
+      "status": "Confirmed",
+      "price": 2275,
+      "qrPayload": "A-048|Ramesh Kumar|Wheat (गेहूँ)|Mandi Road Procurement Center|2026-09-12|7:00 AM",
+      "createdAt": "2026-09-12T06:20:35.313Z"
+    },
+    {
+      "id": "BK-1789193555942",
+      "token": "A-047",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Paddy",
+      "qty": 30,
+      "vehicle": "Tractor-Trolley",
+      "moisture": 12,
+      "center": "Mandi Road Procurement Center",
+      "centerId": 0,
+      "date": "2026-09-12",
+      "slot": "10:00 AM",
+      "status": "Confirmed",
+      "price": 2183,
+      "qrPayload": "A-047|Ramesh Kumar|Paddy|Mandi Road Procurement Center|2026-09-12|10:00 AM",
+      "createdAt": "2026-09-12T06:12:35.942Z"
+    },
+    {
       "id": "BK-1788197842549",
-      "token": "A-044",
+      "token": "A-046",
       "farmerName": "Ramesh Kumar",
       "crop": "Wheat (गेहूँ)",
       "qty": "12",
@@ -245,12 +504,12 @@
       "slot": "7:00 AM",
       "status": "Confirmed",
       "price": 2275,
-      "qrPayload": "A-044|Ramesh Kumar|Wheat (गेहूँ)|Mandi Road Procurement Center|2026-08-31|7:00 AM",
+      "qrPayload": "A-046|Ramesh Kumar|Wheat (गेहूँ)|Mandi Road Procurement Center|2026-08-31|7:00 AM",
       "createdAt": "2026-08-31T17:37:22.549Z"
     },
     {
       "id": "BK-1788197141241",
-      "token": "A-043",
+      "token": "A-045",
       "farmerName": "Gurpreet Singh",
       "crop": "Wheat",
       "qty": "30",
@@ -262,7 +521,7 @@
       "slot": "11:00 AM",
       "status": "Verified",
       "price": 2275,
-      "qrPayload": "A-043|Gurpreet Singh|Wheat|Mandi Road Procurement Center|2026-09-01|11:00 AM",
+      "qrPayload": "A-045|Gurpreet Singh|Wheat|Mandi Road Procurement Center|2026-09-01|11:00 AM",
       "createdAt": "2026-08-31T17:25:41.241Z"
     },
     {
@@ -288,9 +547,12 @@
       "cat": "Fake Weighing",
       "center": "Mandi Road Procurement Center",
       "date": "2026-08-15",
-      "status": "Under Review",
+      "status": "RESOLVED",
       "desc": "Scale showed 10 qtl less than actual weight.",
-      "createdAt": "2026-08-15T10:30:00.000Z"
+      "createdAt": "2026-08-15T10:30:00.000Z",
+      "resolvedAt": "2026-09-13T09:52:54.642Z",
+      "resolvedBy": "District Procurement Officer",
+      "resolutionNote": "Investigated and resolved"
     },
     {
       "id": "CMP-002",
@@ -346,26 +608,888 @@
       "status": "pending"
     },
     {
-      "token": "A-043",
+      "token": "A-045",
       "name": "Gurpreet Singh",
       "crop": "Wheat",
       "qty": 30,
       "status": "pending"
     },
     {
-      "token": "A-044",
+      "token": "A-046",
       "name": "Ramesh Kumar",
       "crop": "Wheat",
       "qty": 12,
       "status": "pending"
+    },
+    {
+      "token": "A-047",
+      "name": "Ramesh Kumar",
+      "crop": "Paddy",
+      "qty": 30,
+      "status": "pending"
+    },
+    {
+      "token": "A-048",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 25,
+      "status": "pending"
+    },
+    {
+      "token": "A-049",
+      "bookingId": "BK-1789293068750",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 35,
+      "status": "completed",
+      "date": "2026-09-20",
+      "slot": "10:00 AM",
+      "clearedAt": "2026-09-13T09:51:08.779Z",
+      "actualQty": 113,
+      "amount": 257075
+    },
+    {
+      "token": "A-050",
+      "bookingId": "BK-1789293068841",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 20,
+      "status": "rejected",
+      "date": "2026-09-22",
+      "slot": "11:00 AM",
+      "clearedAt": "2026-09-13T09:51:08.849Z",
+      "actualQty": 90,
+      "amount": 0
+    },
+    {
+      "token": "A-051",
+      "bookingId": "BK-1789293087896",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 35,
+      "status": "cleared",
+      "date": "2026-09-20",
+      "slot": "10:00 AM",
+      "clearedAt": "2026-09-13T09:51:27.911Z"
+    },
+    {
+      "token": "A-052",
+      "bookingId": "BK-1789293087938",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 20,
+      "status": "rejected",
+      "date": "2026-09-22",
+      "slot": "11:00 AM",
+      "clearedAt": "2026-09-13T09:51:27.957Z",
+      "actualQty": 90,
+      "amount": 0
+    },
+    {
+      "token": "A-053",
+      "bookingId": "BK-1789293174659",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 35,
+      "status": "completed",
+      "date": "2026-09-20",
+      "slot": "10:00 AM",
+      "clearedAt": "2026-09-13T09:52:54.696Z",
+      "actualQty": 113,
+      "amount": 257075
+    },
+    {
+      "token": "A-054",
+      "bookingId": "BK-1789293174757",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 20,
+      "status": "rejected",
+      "date": "2026-09-22",
+      "slot": "11:00 AM",
+      "clearedAt": "2026-09-13T09:52:56.377Z",
+      "actualQty": 90,
+      "amount": 0
+    },
+    {
+      "token": "A-055",
+      "bookingId": "BK-1789293342194",
+      "name": "Ramesh Kumar",
+      "crop": "Wheat",
+      "qty": 105,
+      "status": "pending",
+      "date": "2026-09-13",
+      "slot": "6:00 AM"
     }
   ],
   "stats": {
     "totalFarmersToday": 1284,
     "slotsProcessed": 876,
     "mspPaidTodayCr": "₹2.3 Cr",
-    "agentDone": 44,
-    "agentPending": 16,
-    "agentRejected": 3
-  }
+    "agentDone": 50,
+    "agentPending": 10,
+    "agentRejected": 3,
+    "dailyTonnage": 164.6
+  },
+  "weighments": [
+    {
+      "id": "WGH-1789293176398",
+      "bookingId": "BK-1789293174757",
+      "token": "A-054",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Wheat (गेहूँ)",
+      "grossWeight": 15000,
+      "tareWeight": 6000,
+      "netWeightKg": 9000,
+      "netQuintals": 90,
+      "moisture": 16.5,
+      "moistureThreshold": 14,
+      "qualityGrade": "Below FAQ (Excess Moisture)",
+      "status": "REJECTED",
+      "rejectionReason": "Moisture reading 16.5% exceeds the statutory threshold of 14% for Wheat",
+      "mspRate": 2275,
+      "finalAmount": 0,
+      "notes": "",
+      "weighedBy": "Center Weighing Agent",
+      "timestamp": "2026-09-13T09:52:56.398Z"
+    },
+    {
+      "id": "WGH-1789293174726",
+      "bookingId": "BK-1789293174659",
+      "token": "A-053",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Wheat (गेहूँ)",
+      "grossWeight": 18500,
+      "tareWeight": 7200,
+      "netWeightKg": 11300,
+      "netQuintals": 113,
+      "moisture": 11.8,
+      "moistureThreshold": 14,
+      "qualityGrade": "Grade-A (FAQ Prime)",
+      "status": "ACCEPTED",
+      "rejectionReason": null,
+      "mspRate": 2275,
+      "finalAmount": 257075,
+      "notes": "",
+      "weighedBy": "Center Weighing Agent",
+      "timestamp": "2026-09-13T09:52:54.726Z"
+    },
+    {
+      "id": "WGH-1789293087964",
+      "bookingId": "BK-1789293087938",
+      "token": "A-052",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Wheat (गेहूँ)",
+      "grossWeight": 15000,
+      "tareWeight": 6000,
+      "netWeightKg": 9000,
+      "netQuintals": 90,
+      "moisture": 16.5,
+      "moistureThreshold": 14,
+      "qualityGrade": "Below FAQ (Excess Moisture)",
+      "status": "REJECTED",
+      "rejectionReason": "Moisture reading 16.5% exceeds the statutory threshold of 14% for Wheat",
+      "mspRate": 2275,
+      "finalAmount": 0,
+      "notes": "",
+      "weighedBy": "Center Weighing Agent",
+      "timestamp": "2026-09-13T09:51:27.965Z"
+    },
+    {
+      "id": "WGH-1789293068856",
+      "bookingId": "BK-1789293068841",
+      "token": "A-050",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Wheat (गेहूँ)",
+      "grossWeight": 15000,
+      "tareWeight": 6000,
+      "netWeightKg": 9000,
+      "netQuintals": 90,
+      "moisture": 16.5,
+      "moistureThreshold": 14,
+      "qualityGrade": "Below FAQ (Excess Moisture)",
+      "status": "REJECTED",
+      "rejectionReason": "Moisture reading 16.5% exceeds the statutory threshold of 14% for Wheat",
+      "mspRate": 2275,
+      "finalAmount": 0,
+      "notes": "",
+      "weighedBy": "Center Weighing Agent",
+      "timestamp": "2026-09-13T09:51:08.856Z"
+    },
+    {
+      "id": "WGH-1789293068806",
+      "bookingId": "BK-1789293068750",
+      "token": "A-049",
+      "farmerName": "Ramesh Kumar",
+      "crop": "Wheat (गेहूँ)",
+      "grossWeight": 18500,
+      "tareWeight": 7200,
+      "netWeightKg": 11300,
+      "netQuintals": 113,
+      "moisture": 11.8,
+      "moistureThreshold": 14,
+      "qualityGrade": "Grade-A (FAQ Prime)",
+      "status": "ACCEPTED",
+      "rejectionReason": null,
+      "mspRate": 2275,
+      "finalAmount": 257075,
+      "notes": "",
+      "weighedBy": "Center Weighing Agent",
+      "timestamp": "2026-09-13T09:51:08.806Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": "AUD-1789293342197-732",
+      "userId": "USR-1788197825576",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293342194",
+      "details": {
+        "token": "A-055",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 105,
+        "date": "2026-09-13",
+        "slot": "6:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:55:42.197Z"
+    },
+    {
+      "id": "AUD-1789293321180-940",
+      "userId": "USR-1788197825576",
+      "role": "farmer",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-1788197825576",
+      "details": {
+        "phone": "8957824566",
+        "role": "farmer"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:55:21.180Z"
+    },
+    {
+      "id": "AUD-1789293320192-815",
+      "userId": "8957824566",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "8957824566",
+      "details": {
+        "expiresAt": "2026-09-13T10:00:20.189Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:55:20.192Z"
+    },
+    {
+      "id": "AUD-1789293176400-940",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "WEIGHMENT_REJECTED",
+      "entity": "weighment",
+      "entityId": "WGH-1789293176398",
+      "details": {
+        "bookingId": "BK-1789293174757",
+        "token": "A-054",
+        "netQuintals": 90,
+        "moisture": 16.5,
+        "amount": 0
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:56.400Z"
+    },
+    {
+      "id": "AUD-1789293176380-714",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "GATE_ENTRY_APPROVED",
+      "entity": "booking",
+      "entityId": "BK-1789293174757",
+      "details": {
+        "token": "A-054",
+        "farmer": "Ramesh Kumar",
+        "center": "Mandi Road Procurement Center"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:56.380Z"
+    },
+    {
+      "id": "AUD-1789293176371-736",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293174757",
+      "details": {
+        "token": "A-054",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 20,
+        "date": "2026-09-22",
+        "slot": "11:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:56.371Z"
+    },
+    {
+      "id": "AUD-1789293174728-335",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "WEIGHMENT_ACCEPTED",
+      "entity": "weighment",
+      "entityId": "WGH-1789293174726",
+      "details": {
+        "bookingId": "BK-1789293174659",
+        "token": "A-053",
+        "netQuintals": 113,
+        "moisture": 11.8,
+        "amount": 257075
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.728Z"
+    },
+    {
+      "id": "AUD-1789293174698-701",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "GATE_ENTRY_APPROVED",
+      "entity": "booking",
+      "entityId": "BK-1789293174659",
+      "details": {
+        "token": "A-053",
+        "farmer": "Ramesh Kumar",
+        "center": "Mandi Road Procurement Center"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.698Z"
+    },
+    {
+      "id": "AUD-1789293174661-815",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293174659",
+      "details": {
+        "token": "A-053",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 35,
+        "date": "2026-09-20",
+        "slot": "10:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.661Z"
+    },
+    {
+      "id": "AUD-1789293174646-243",
+      "userId": "USR-002",
+      "role": "admin",
+      "action": "COMPLAINT_RESOLVED",
+      "entity": "complaint",
+      "entityId": "CMP-001",
+      "details": {
+        "status": "RESOLVED",
+        "resolutionNote": "Investigated and resolved"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.646Z"
+    },
+    {
+      "id": "AUD-1789293174622-316",
+      "userId": "USR-002",
+      "role": "admin",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-002",
+      "details": {
+        "phone": "9999988888",
+        "role": "admin"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.622Z"
+    },
+    {
+      "id": "AUD-1789293174598-545",
+      "userId": "9999988888",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9999988888",
+      "details": {
+        "expiresAt": "2026-09-13T09:57:54.597Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.598Z"
+    },
+    {
+      "id": "AUD-1789293174591-277",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-003",
+      "details": {
+        "phone": "7777766666",
+        "role": "distributor"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.591Z"
+    },
+    {
+      "id": "AUD-1789293174582-281",
+      "userId": "7777766666",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "7777766666",
+      "details": {
+        "expiresAt": "2026-09-13T09:57:54.580Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.582Z"
+    },
+    {
+      "id": "AUD-1789293174569-493",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-001",
+      "details": {
+        "phone": "9876543210",
+        "role": "farmer"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.569Z"
+    },
+    {
+      "id": "AUD-1789293174549-392",
+      "userId": "9876543210",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9876543210",
+      "details": {
+        "expiresAt": "2026-09-13T09:57:54.546Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.549Z"
+    },
+    {
+      "id": "AUD-1789293174513-900",
+      "userId": "9876543210",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9876543210",
+      "details": {
+        "expiresAt": "2026-09-13T09:57:54.509Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:52:54.513Z"
+    },
+    {
+      "id": "AUD-1789293087967-245",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "WEIGHMENT_REJECTED",
+      "entity": "weighment",
+      "entityId": "WGH-1789293087964",
+      "details": {
+        "bookingId": "BK-1789293087938",
+        "token": "A-052",
+        "netQuintals": 90,
+        "moisture": 16.5,
+        "amount": 0
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.967Z"
+    },
+    {
+      "id": "AUD-1789293087959-520",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "GATE_ENTRY_APPROVED",
+      "entity": "booking",
+      "entityId": "BK-1789293087938",
+      "details": {
+        "token": "A-052",
+        "farmer": "Ramesh Kumar",
+        "center": "Mandi Road Procurement Center"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.959Z"
+    },
+    {
+      "id": "AUD-1789293087940-816",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293087938",
+      "details": {
+        "token": "A-052",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 20,
+        "date": "2026-09-22",
+        "slot": "11:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.940Z"
+    },
+    {
+      "id": "AUD-1789293087913-300",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "GATE_ENTRY_APPROVED",
+      "entity": "booking",
+      "entityId": "BK-1789293087896",
+      "details": {
+        "token": "A-051",
+        "farmer": "Ramesh Kumar",
+        "center": "Mandi Road Procurement Center"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.913Z"
+    },
+    {
+      "id": "AUD-1789293087898-146",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293087896",
+      "details": {
+        "token": "A-051",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 35,
+        "date": "2026-09-20",
+        "slot": "10:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.898Z"
+    },
+    {
+      "id": "AUD-1789293087883-130",
+      "userId": "USR-002",
+      "role": "admin",
+      "action": "COMPLAINT_RESOLVED",
+      "entity": "complaint",
+      "entityId": "CMP-001",
+      "details": {
+        "status": "RESOLVED",
+        "resolutionNote": "Investigated and resolved"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.883Z"
+    },
+    {
+      "id": "AUD-1789293087836-982",
+      "userId": "USR-002",
+      "role": "admin",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-002",
+      "details": {
+        "phone": "9999988888",
+        "role": "admin"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.836Z"
+    },
+    {
+      "id": "AUD-1789293087821-981",
+      "userId": "9999988888",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9999988888",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:27.819Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.821Z"
+    },
+    {
+      "id": "AUD-1789293087801-997",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-003",
+      "details": {
+        "phone": "7777766666",
+        "role": "distributor"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.801Z"
+    },
+    {
+      "id": "AUD-1789293087786-612",
+      "userId": "7777766666",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "7777766666",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:27.784Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.786Z"
+    },
+    {
+      "id": "AUD-1789293087771-426",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-001",
+      "details": {
+        "phone": "9876543210",
+        "role": "farmer"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.771Z"
+    },
+    {
+      "id": "AUD-1789293087757-858",
+      "userId": "9876543210",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9876543210",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:27.741Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.757Z"
+    },
+    {
+      "id": "AUD-1789293087719-858",
+      "userId": "9876543210",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9876543210",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:27.717Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:27.719Z"
+    },
+    {
+      "id": "AUD-1789293068857-670",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "WEIGHMENT_REJECTED",
+      "entity": "weighment",
+      "entityId": "WGH-1789293068856",
+      "details": {
+        "bookingId": "BK-1789293068841",
+        "token": "A-050",
+        "netQuintals": 90,
+        "moisture": 16.5,
+        "amount": 0
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.857Z"
+    },
+    {
+      "id": "AUD-1789293068851-301",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "GATE_ENTRY_APPROVED",
+      "entity": "booking",
+      "entityId": "BK-1789293068841",
+      "details": {
+        "token": "A-050",
+        "farmer": "Ramesh Kumar",
+        "center": "Mandi Road Procurement Center"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.851Z"
+    },
+    {
+      "id": "AUD-1789293068843-901",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293068841",
+      "details": {
+        "token": "A-050",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 20,
+        "date": "2026-09-22",
+        "slot": "11:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.843Z"
+    },
+    {
+      "id": "AUD-1789293068808-468",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "WEIGHMENT_ACCEPTED",
+      "entity": "weighment",
+      "entityId": "WGH-1789293068806",
+      "details": {
+        "bookingId": "BK-1789293068750",
+        "token": "A-049",
+        "netQuintals": 113,
+        "moisture": 11.8,
+        "amount": 257075
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.808Z"
+    },
+    {
+      "id": "AUD-1789293068781-107",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "GATE_ENTRY_APPROVED",
+      "entity": "booking",
+      "entityId": "BK-1789293068750",
+      "details": {
+        "token": "A-049",
+        "farmer": "Ramesh Kumar",
+        "center": "Mandi Road Procurement Center"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.781Z"
+    },
+    {
+      "id": "AUD-1789293068752-711",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "SLOT_BOOKED",
+      "entity": "booking",
+      "entityId": "BK-1789293068750",
+      "details": {
+        "token": "A-049",
+        "center": "Mandi Road Procurement Center",
+        "crop": "Wheat (गेहूँ)",
+        "qty": 35,
+        "date": "2026-09-20",
+        "slot": "10:00 AM"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.752Z"
+    },
+    {
+      "id": "AUD-1789293068737-191",
+      "userId": "USR-002",
+      "role": "admin",
+      "action": "COMPLAINT_RESOLVED",
+      "entity": "complaint",
+      "entityId": "CMP-001",
+      "details": {
+        "status": "RESOLVED",
+        "resolutionNote": "Investigated and resolved"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.737Z"
+    },
+    {
+      "id": "AUD-1789293068690-740",
+      "userId": "USR-002",
+      "role": "admin",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-002",
+      "details": {
+        "phone": "9999988888",
+        "role": "admin"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.690Z"
+    },
+    {
+      "id": "AUD-1789293068673-255",
+      "userId": "9999988888",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9999988888",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:08.671Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.673Z"
+    },
+    {
+      "id": "AUD-1789293068664-713",
+      "userId": "USR-003",
+      "role": "distributor",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-003",
+      "details": {
+        "phone": "7777766666",
+        "role": "distributor"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.664Z"
+    },
+    {
+      "id": "AUD-1789293068655-426",
+      "userId": "7777766666",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "7777766666",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:08.653Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.655Z"
+    },
+    {
+      "id": "AUD-1789293068639-177",
+      "userId": "USR-001",
+      "role": "farmer",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "entity": "user",
+      "entityId": "USR-001",
+      "details": {
+        "phone": "9876543210",
+        "role": "farmer"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.639Z"
+    },
+    {
+      "id": "AUD-1789293068624-914",
+      "userId": "9876543210",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9876543210",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:08.623Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.624Z"
+    },
+    {
+      "id": "AUD-1789293068581-541",
+      "userId": "9876543210",
+      "role": "anonymous",
+      "action": "OTP_REQUESTED",
+      "entity": "auth",
+      "entityId": "9876543210",
+      "details": {
+        "expiresAt": "2026-09-13T09:56:08.570Z"
+      },
+      "ip": "::1",
+      "timestamp": "2026-09-13T09:51:08.581Z"
+    }
+  ]
 }

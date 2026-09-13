@@ -94,10 +94,20 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'Rajdhani', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
   color: var(--text);
+}
+
+.tnum,
+.stat-num,
+.epass-token-num,
+.price-table td,
+.q-token,
+.ticker-item span {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
 }
 
 /* ===== MODERN SLIM SCROLLBAR ===== */
@@ -289,7 +299,7 @@ h4 {
   color: var(--amber-mid);
 }
 
-/* Quick demo chips for agent and tests */
+/* Quick selector chips for gate pass verification */
 .quick-chip {
   display: inline-flex;
   align-items: center;
@@ -310,23 +320,141 @@ h4 {
   transform: translateY(-1px);
 }
 
-/* ===== PRINT STYLES ===== */
+/* ===== COMPREHENSIVE A4 GOVTECH PRINT STYLES ===== */
 @media print {
-  body {
-    background: #fff;
-    color: #000;
+  @page {
+    size: A4 portrait;
+    margin: 12mm 12mm;
   }
+  
+  *, *::before, *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .gov-topbar,
   .topbar,
   .bottom-nav,
   .epass-actions,
   .notif,
-  #booking-steps {
+  #booking-steps,
+  #farmer-back-btn,
+  .lang-toggle,
+  .btn,
+  .stat-grid,
+  .quick-actions,
+  .bnav-item,
+  .screen:not(.active),
+  .tab-content:not(#tab-book) {
     display: none !important;
   }
+
+  #landing, #auth, #admin-app, #distributor-app {
+    display: none !important;
+  }
+
+  #farmer-app {
+    display: block !important;
+  }
+
+  .app-body {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #tab-book {
+    display: block !important;
+  }
+
+  #qr-result {
+    display: block !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
   .epass-card {
-    border: 2px solid #000 !important;
-    box-shadow: none !important;
-    max-width: 580px;
-    margin: 0 auto;
+    border: 2px solid #064E3B !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    max-width: 660px !important;
+    margin: 0 auto !important;
+    page-break-inside: avoid !important;
+    overflow: visible !important;
+  }
+
+  .epass-header {
+    background: #064E3B !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    padding: 1.2rem !important;
+  }
+
+  .epass-header h2 {
+    color: #ffffff !important;
+    font-size: 14pt !important;
+  }
+
+  .epass-header p {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 9pt !important;
+  }
+
+  .epass-token-badge {
+    background: #ECFDF5 !important;
+    border: 2px dashed #059669 !important;
+    color: #064E3B !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .epass-token-num {
+    color: #064E3B !important;
+    font-size: 20pt !important;
+    font-weight: 800 !important;
+  }
+
+  .epass-details-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  .epass-details-table td {
+    padding: 7px 10px !important;
+    border-bottom: 1px solid #E5E7EB !important;
+    font-size: 9.5pt !important;
+  }
+
+  .epass-security-strip {
+    background: #F9FAFB !important;
+    border-top: 1px solid #E5E7EB !important;
+    color: #4B5563 !important;
+    font-size: 8pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Institutional Print Verification Signatures */
+  .epass-card::after {
+    content: "OFFICIAL PROCUREMENT RECORD · MINISTRY OF AGRICULTURE & FARMERS WELFARE\A Verified Gate Entry Clearance Token. Authorized under National Agricultural Market (e-NAM) standards.\A\A Gate In-Charge Signature: _______________________      Farmer Signature: _______________________";
+    display: block;
+    white-space: pre-wrap;
+    padding: 1.2rem 1rem 0.5rem;
+    font-size: 8pt;
+    color: #374151;
+    border-top: 1px dashed #9CA3AF;
+    margin-top: 1rem;
+    line-height: 1.7;
+    text-align: center;
   }
 }

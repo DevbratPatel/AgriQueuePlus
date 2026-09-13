@@ -27,6 +27,29 @@
 
 <body>
 
+  <!-- ===================== OFFICIAL GOVTECH TOP RIBBON ===================== -->
+  <div class="gov-topbar">
+    <div class="gov-topbar-inner">
+      <div class="gov-emblem-text">
+        <span class="gov-tricolor-dot"></span>
+        <span data-i18n="gov_india">GovTech Academic Prototype · Ministry Framework</span>
+        <span class="gov-sep">·</span>
+        <span class="gov-ministry" data-i18n="gov_dept">Smart MSP Procurement & Mandi Transparency Prototype</span>
+      </div>
+      <div class="gov-topbar-right">
+        <div id="api-status-badge" class="gov-badge-status online" title="Backend Server Connectivity">
+          <span class="api-dot"></span>
+          <span id="api-status-text" data-i18n="api_status">REST API Active</span>
+        </div>
+        <div class="gov-lang-switch">
+          <button class="gov-lang-btn active" id="gov-lang-en" onclick="setLang('en')">EN</button>
+          <span class="gov-sep">|</span>
+          <button class="gov-lang-btn" id="gov-lang-hi" onclick="setLang('hi')">हिं</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===================== NOTIFICATION TOAST ===================== -->
   <div id="notif" class="notif">
     <span id="notif-msg"></span>
@@ -36,30 +59,39 @@
   <div id="landing" class="screen active">
     <div class="landing-bg"></div>
     <div class="landing-content">
-      <div class="logo-badge">🇮🇳 Digital India Initiative</div>
+      <div class="logo-badge">
+        <span class="gov-tricolor-dot" style="width:7px;height:7px"></span>
+        <span data-i18n="portal_tag">Smart MSP e-Procurement Prototype</span>
+      </div>
       <h1 class="landing-title">Agri<span>Queue</span><span style="color:#fff">+</span></h1>
-      <p class="landing-sub">Smart MSP Procurement & Transparency System — No queues, no corruption, just fair prices for every farmer.</p>
+      <p class="landing-sub" data-i18n="landing_sub">Direct MSP procurement and mandi transparency infrastructure. Transparent gate passes, verified weighing metrics, and assured direct-benefit farmer disbursements.</p>
 
       <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('en')">English</button>
-        <button class="lang-btn" onclick="setLang('hi')">हिंदी</button>
+        <button class="lang-btn active" id="lang-toggle-en" onclick="setLang('en')">English</button>
+        <button class="lang-btn" id="lang-toggle-hi" onclick="setLang('hi')">हिंदी</button>
       </div>
 
       <div class="role-cards">
         <div class="role-card" onclick="showAuth('farmer')">
-          <span class="role-icon">🌾</span>
-          <div class="role-name">Farmer</div>
-          <div class="role-desc">Book MSP slots, track queue, get QR token</div>
+          <span class="role-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M2 12h20"/></svg>
+          </span>
+          <div class="role-name" data-i18n="role_farmer">Farmer Portal</div>
+          <div class="role-desc" data-i18n="role_farmer_desc">Book Mandi slots, track live gate queue, obtain verified QR e-Pass</div>
         </div>
         <div class="role-card" onclick="showAuth('admin')">
-          <span class="role-icon">🏛️</span>
-          <div class="role-name">Admin / Officer</div>
-          <div class="role-desc">Manage procurement centers & analytics</div>
+          <span class="role-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10h1v2H9z"/><path d="M14 10h1v2h-1z"/><path d="M9 15h1v2H9z"/><path d="M14 15h1v2h-1z"/></svg>
+          </span>
+          <div class="role-name" data-i18n="role_admin">Admin / Officer</div>
+          <div class="role-desc" data-i18n="role_admin_desc">Manage procurement centers, allocation quotas & grievance analytics</div>
         </div>
         <div class="role-card" onclick="showAuth('distributor')">
-          <span class="role-icon">⚖️</span>
-          <div class="role-name">Center Agent</div>
-          <div class="role-desc">Scan QR, verify farmers, process payments</div>
+          <span class="role-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/><path d="M18 8h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4"/><circle cx="8" cy="12" r="2"/></svg>
+          </span>
+          <div class="role-name" data-i18n="role_agent">Center Agent</div>
+          <div class="role-desc" data-i18n="role_agent_desc">Scan gate passes, verify moisture analysis, record net weighbridge data</div>
         </div>
       </div>
     </div>
@@ -74,6 +106,9 @@
   <div id="auth" class="screen">
     <div class="auth-wrapper">
       <div class="auth-header">
+        <div class="auth-header-top">
+          <button class="auth-header-back" onclick="goBack()" aria-label="Go Back">← Back</button>
+        </div>
         <h1 class="auth-title">AgriQueue<span style="color:var(--gold)">+</span></h1>
         <p class="auth-sub" id="auth-subtitle">Farmer Portal</p>
       </div>
@@ -90,19 +125,23 @@
             <input type="tel" class="form-input" id="login-phone" placeholder="Enter 10-digit mobile" maxlength="10" />
           </div>
           <div class="form-group">
-            <label class="form-label">OTP <span class="hint">(Sent to your mobile)</span></label>
-            <div class="otp-row">
-              <input type="text" class="otp-digit" maxlength="1" id="otp1" oninput="otpNext(this,'otp2')" />
-              <input type="text" class="otp-digit" maxlength="1" id="otp2" oninput="otpNext(this,'otp3')" />
-              <input type="text" class="otp-digit" maxlength="1" id="otp3" oninput="otpNext(this,'otp4')" />
-              <input type="text" class="otp-digit" maxlength="1" id="otp4" oninput="otpNext(this,null)" />
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+              <label class="form-label" style="margin-bottom:0">Verification Code</label>
+              <button type="button" id="btn-request-otp" onclick="requestOTP()" style="background:none;border:none;color:var(--green);font-size:.82rem;font-weight:600;cursor:pointer;padding:0">Get OTP</button>
             </div>
-            <div style="text-align:center;margin-top:.4rem">
-              <small style="color:var(--text-light)">Demo OTP: </small>
-              <strong style="color:var(--green);cursor:pointer" onclick="fillDemoOTP()">1234</strong>
+            <div class="otp-row">
+              <input type="text" class="otp-digit" maxlength="1" id="otp1" oninput="otpNext(this,'otp2')" inputmode="numeric" autocomplete="one-time-code" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp2" oninput="otpNext(this,'otp3')" inputmode="numeric" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp3" oninput="otpNext(this,'otp4')" inputmode="numeric" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp4" oninput="otpNext(this,'otp5')" inputmode="numeric" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp5" oninput="otpNext(this,'otp6')" inputmode="numeric" />
+              <input type="text" class="otp-digit" maxlength="1" id="otp6" oninput="otpNext(this,null)" inputmode="numeric" />
+            </div>
+            <div style="text-align:center;margin-top:.45rem;font-size:.78rem;color:var(--text-light)">
+              <span id="otp-status-msg">Enter mobile number and click <strong>Get OTP</strong></span>
             </div>
           </div>
-          <button class="btn btn-primary btn-full" onclick="doLogin()">Send OTP & Login</button>
+          <button class="btn btn-primary btn-full" onclick="doLogin()">Verify & Login</button>
           <div style="margin-top:1rem;text-align:center">
             <button class="btn btn-outline btn-full" onclick="showLanding()" style="margin-top:.5rem">← Back to Home</button>
           </div>
@@ -148,7 +187,12 @@
   <!-- ===================== 3. FARMER APP ===================== -->
   <div id="farmer-app" class="screen">
     <div class="topbar">
-      <div class="topbar-brand">Agri<span>Q+</span></div>
+      <div class="topbar-left">
+        <button class="topbar-back-btn" id="farmer-back-btn" onclick="goBack()" style="display:none;" aria-label="Go Back">
+          <span>←</span> <span>Back</span>
+        </button>
+        <div class="topbar-brand">Agri<span>Q+</span></div>
+      </div>
       <div class="topbar-user">
         <div class="avatar" id="farmer-avatar">R</div>
         <div class="uname" id="farmer-uname">Ramesh</div>
@@ -158,41 +202,83 @@
     <div class="content-area fade-in">
       <!-- ---- HOME TAB ---- -->
       <div id="tab-home" class="tab-content active">
-        <!-- Weather Widget -->
+        <!-- Agro-Climatic Advisory Card -->
         <div class="weather-card">
-          <div class="weather-icon">⛅</div>
+          <div class="weather-icon" style="display:flex;align-items:center;justify-content:center;color:var(--amber)">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>
+          </div>
           <div style="flex:1">
             <div style="display:flex;align-items:baseline;gap:.5rem">
               <div class="weather-temp">32°C</div>
-              <div class="weather-info">Partly Cloudy · Ludhiana</div>
+              <div class="weather-info">Partly Cloudy · Ludhiana Mandi Hub</div>
             </div>
-            <div class="weather-advice">🌾 Good conditions for wheat harvest. Visit procurement center by noon to avoid afternoon heat.</div>
+            <div class="weather-advice"><strong>ICAR Procurement Advisory:</strong> Favorable grain moisture levels across regional procurement centers. Center gate flow moving on schedule.</div>
           </div>
         </div>
 
-        <!-- Stats -->
+        <!-- Enterprise KPI Grid -->
         <div class="stats-grid">
           <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Available Slots</span>
+              <div class="stat-icon-wrap emerald">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
+              </div>
+            </div>
             <div class="stat-num" id="stat-slots">847</div>
-            <div class="stat-label">Slots Available Today</div>
+            <div class="stat-trend positive">
+              <span class="trend-dot"></span> 82% Booked · 153 Open
+            </div>
           </div>
-          <div class="stat-card amber">
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Average Wait</span>
+              <div class="stat-icon-wrap amber">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+            </div>
             <div class="stat-num" id="stat-wait">~18 min</div>
-            <div class="stat-label">Avg. Wait Time</div>
+            <div class="stat-trend neutral">
+              <span>Ludhiana Mandi · Normal Flow</span>
+            </div>
           </div>
-          <div class="stat-card gold">
-            <div class="stat-num">₹2,275</div>
-            <div class="stat-label">Wheat MSP / Quintal</div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Wheat MSP Rate</span>
+              <div class="stat-icon-wrap blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M2 12h20"/></svg>
+              </div>
+            </div>
+            <div class="stat-num">₹2,275<span class="stat-unit">/Qtl</span></div>
+            <div class="stat-trend positive">
+              <span>Official Gazette 2024-25</span>
+            </div>
           </div>
-          <div class="stat-card danger">
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Active Grievances</span>
+              <div class="stat-icon-wrap red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17"/></svg>
+              </div>
+            </div>
             <div class="stat-num" id="stat-complaints">12</div>
-            <div class="stat-label">Active Complaints</div>
+            <div class="stat-trend warning">
+              <span>4 In Review · 8 Resolved</span>
+            </div>
           </div>
         </div>
 
         <!-- Live Queue -->
         <div class="card">
-          <div class="card-title"><span class="icon">📊</span> Live Queue Status <span class="live-dot"></span></div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            </span>
+            Live Gate Queue Status <span class="live-dot"></span>
+          </div>
           <div style="margin-bottom:.6rem">
             <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.2rem">
               <span>Mandi Road Center</span>
@@ -213,24 +299,34 @@
             <div class="queue-bar">
               <div class="queue-fill queue-low" style="width:24%" id="queue-bar-2"></div>
             </div>
-            <div style="font-size:.75rem;color:var(--text-light);margin-top:.3rem">No waiting · Walk-in friendly</div>
+            <div style="font-size:.75rem;color:var(--text-light);margin-top:.3rem">No waiting · Direct Weighbridge Flow</div>
           </div>
         </div>
 
         <!-- Crowd Prediction Chart -->
         <div class="card">
-          <div class="card-title"><span class="icon">📈</span> Today's Crowd Prediction</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+            </span>
+            Hourly Throughput & Arrival Forecast
+          </div>
           <div class="chart-container">
             <canvas id="crowd-chart"></canvas>
           </div>
           <div style="font-size:.78rem;color:var(--text-light);margin-top:.5rem">
-            ⭐ Best time to visit: <strong style="color:var(--green)">6 AM – 9 AM</strong> or <strong style="color:var(--green)">4 PM – 6 PM</strong>
+            Optimal arrival windows: <strong style="color:var(--green)">6 AM – 9 AM</strong> or <strong style="color:var(--green)">4 PM – 6 PM</strong>
           </div>
         </div>
 
         <!-- MSP Price Board -->
         <div class="card">
-          <div class="card-title"><span class="icon">💰</span> MSP Price Board 2024-25</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+            </span>
+            Official Minimum Support Price (MSP) Board 2024-25
+          </div>
           <table class="price-table">
             <thead>
               <tr>
@@ -269,7 +365,12 @@
         <!-- Step 1: Crop Details -->
         <div id="book-step1" class="fade-in">
           <div class="card">
-            <div class="card-title"><span class="icon">🌾</span> Crop Details</div>
+            <div class="card-title">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M2 12h20"/></svg>
+              </span>
+              Crop & Declaration Details
+            </div>
             <div class="form-group">
               <label class="form-label">Select Crop</label>
               <select class="form-select" id="sel-crop">
@@ -291,24 +392,33 @@
               <label class="form-label">Vehicle Type</label>
               <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem">
                 <div class="cat-option" onclick="selectVehicle(this,'Tractor-Trolley')">
-                  <span class="cat-icon">🚜</span><span class="cat-name">Tractor-Trolley</span>
+                  <span class="cat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><circle cx="17" cy="14" r="5"/><path d="M10 14h2l2-4h3l1 4"/><path d="M4 14H2v-2l2-3h3"/></svg>
+                  </span>
+                  <span class="cat-name">Tractor-Trolley</span>
                 </div>
                 <div class="cat-option" onclick="selectVehicle(this,'Tempo')">
-                  <span class="cat-icon">🚐</span><span class="cat-name">Tempo</span>
+                  <span class="cat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1 .4-1 1v9c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                  </span>
+                  <span class="cat-name">Tempo</span>
                 </div>
                 <div class="cat-option" onclick="selectVehicle(this,'Truck')">
-                  <span class="cat-icon">🚛</span><span class="cat-name">Truck</span>
+                  <span class="cat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-5l-3-4h-5v10"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+                  </span>
+                  <span class="cat-name">Truck</span>
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label class="form-label">Moisture Content <span class="hint">(if known)</span></label>
               <input type="number" class="form-input" id="sel-moisture" placeholder="e.g. 12" min="0" max="30" />
-              <div style="font-size:.75rem;color:var(--text-light);margin-top:.3rem">Max allowed: 14% for wheat</div>
+              <div style="font-size:.75rem;color:var(--text-light);margin-top:.3rem">Max permitted threshold: 14% for Grade-A Wheat</div>
             </div>
             <div id="crop-value-box" style="display:none;background:var(--green-pale);border-radius:var(--radius);padding:.8rem;margin-bottom:.5rem">
-              <div style="font-size:.8rem;color:var(--text-light)">Estimated Value at MSP</div>
-              <div id="crop-value" style="font-family:'Rajdhani',sans-serif;font-size:1.6rem;font-weight:700;color:var(--green)">₹0</div>
+              <div style="font-size:.8rem;color:var(--text-light)">Estimated MSP Value</div>
+              <div id="crop-value" style="font-family:'Inter',sans-serif;font-feature-settings:'tnum';font-size:1.6rem;font-weight:700;color:var(--green)">₹0</div>
             </div>
             <button class="btn btn-primary btn-full" onclick="gotoStep(2)">Next: Select Center →</button>
           </div>
@@ -317,7 +427,12 @@
         <!-- Step 2: Select Center -->
         <div id="book-step2" style="display:none" class="fade-in">
           <div class="card" style="padding:.8rem">
-            <div class="card-title"><span class="icon">📍</span> Nearby Procurement Centers</div>
+            <div class="card-title">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              Nearby Procurement Centers
+            </div>
             <div id="centers-list"></div>
             <div style="display:flex;gap:.5rem;margin-top:.5rem">
               <button class="btn btn-outline btn-sm" onclick="gotoStep(1)">← Back</button>
@@ -329,12 +444,17 @@
         <!-- Step 3: Time Slot -->
         <div id="book-step3" style="display:none" class="fade-in">
           <div class="card">
-            <div class="card-title"><span class="icon">🕐</span> Select Time Slot</div>
+            <div class="card-title">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </span>
+              Select Procurement Date & Slot
+            </div>
             <div class="form-group">
-              <label class="form-label">Date</label>
+              <label class="form-label">Procurement Date</label>
               <input type="date" class="form-input" id="sel-date" />
             </div>
-            <label class="form-label">Available Slots</label>
+            <label class="form-label">Available Time Windows</label>
             <div id="slots-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem"></div>
             <div style="display:flex;gap:.5rem">
               <button class="btn btn-outline btn-sm" onclick="gotoStep(2)">← Back</button>
@@ -346,12 +466,17 @@
         <!-- Step 4: Confirm & QR -->
         <div id="book-step4" style="display:none" class="fade-in">
           <div class="card">
-            <div class="card-title"><span class="icon">✅</span> Confirm Booking</div>
-            <div id="booking-summary" style="background:var(--cream);border-radius:var(--radius);padding:.8rem;margin-bottom:1rem;font-size:.88rem"></div>
-            <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:var(--radius);padding:.7rem;font-size:.82rem;margin-bottom:1rem">
-              ⚠️ Bring original Aadhaar & Kisan Credit Card. Crop sample may be tested for moisture before acceptance.
+            <div class="card-title">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+              Verification & Final Confirmation
             </div>
-            <button class="btn btn-primary btn-full" onclick="confirmBooking()">🎟️ Confirm & Get QR Token</button>
+            <div id="booking-summary" style="background:var(--cream);border-radius:var(--radius);padding:.8rem;margin-bottom:1rem;font-size:.88rem"></div>
+            <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:var(--radius);padding:.75rem;font-size:.82rem;margin-bottom:1rem;color:#92400E">
+              <strong>Mandatory Notice:</strong> Please present valid Aadhaar Card and Kisan Credit Card (KCC) at the entry gate. Electronic moisture sampling will occur before unlading.
+            </div>
+            <button class="btn btn-primary btn-full" onclick="confirmBooking()">Generate Official Mandi QR E-Pass</button>
             <button class="btn btn-outline btn-full" style="margin-top:.5rem" onclick="gotoStep(3)">← Back</button>
           </div>
           <div id="qr-result" style="display:none" class="fade-in">
@@ -422,8 +547,14 @@
 
             <!-- E-Pass Action Buttons -->
             <div class="epass-actions">
-              <button class="btn btn-outline" style="flex:1" onclick="printEPass()">🖨️ Print / Save Pass</button>
-              <button class="btn btn-primary" style="flex:1" onclick="showTab('home')">✅ Done — Dashboard</button>
+              <button class="btn btn-outline" style="flex:1" onclick="printEPass()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                <span data-i18n="btn_print_pass">Print / Save Pass</span>
+              </button>
+              <button class="btn btn-primary" style="flex:1" onclick="showTab('home')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg>
+                <span data-i18n="btn_done_dashboard">Done — Dashboard</span>
+              </button>
             </div>
           </div>
         </div>
@@ -432,13 +563,23 @@
       <!-- ---- MY BOOKINGS TAB ---- -->
       <div id="tab-bookings" class="tab-content" style="display:none">
         <div class="card">
-          <div class="card-title"><span class="icon">📋</span> My Bookings</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
+            </span>
+            My Registered Bookings & Gate Passes
+          </div>
           <div id="my-bookings-list"></div>
         </div>
 
         <!-- Payment Tracker -->
         <div class="card" id="payment-tracker" style="display:none">
-          <div class="card-title"><span class="icon">💳</span> Payment Status Tracker</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </span>
+            Direct Benefit Transfer (PFMS) Status Tracker
+          </div>
           <div class="payment-step">
             <div class="pstep-dot pstep-done">✓</div>
             <div class="pstep-info">
@@ -475,7 +616,7 @@
             </div>
           </div>
           <div style="margin-top:1rem">
-            <button class="btn btn-outline btn-full" onclick="showBookingPass()">🎫 View Official QR E-Pass</button>
+            <button class="btn btn-outline btn-full" onclick="showBookingPass()">View Official QR E-Pass</button>
           </div>
         </div>
       </div>
@@ -483,32 +624,55 @@
       <!-- ---- COMPLAINT TAB ---- -->
       <div id="tab-complaint" class="tab-content" style="display:none">
         <div class="card">
-          <div class="card-title"><span class="icon">🚨</span> File a Complaint</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17"/></svg>
+            </span>
+            Lodge Mandi Grievance
+          </div>
           <div class="form-group">
-            <label class="form-label">Category</label>
+            <label class="form-label">Grievance Category</label>
             <div class="complaint-category">
               <div class="cat-option" onclick="selectCat(this,'Corruption / Bribery')">
-                <span class="cat-icon">💸</span><span class="cat-name">Corruption</span>
+                <span class="cat-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                </span>
+                <span class="cat-name">Corruption</span>
               </div>
               <div class="cat-option" onclick="selectCat(this,'Fake Weighing')">
-                <span class="cat-icon">⚖️</span><span class="cat-name">Fake Weighing</span>
+                <span class="cat-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+                </span>
+                <span class="cat-name">Weighbridge</span>
               </div>
               <div class="cat-option" onclick="selectCat(this,'Middlemen Interference')">
-                <span class="cat-icon">🕵️</span><span class="cat-name">Middlemen</span>
+                <span class="cat-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </span>
+                <span class="cat-name">Middlemen</span>
               </div>
               <div class="cat-option" onclick="selectCat(this,'Payment Delayed')">
-                <span class="cat-icon">⏰</span><span class="cat-name">Payment Delay</span>
+                <span class="cat-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </span>
+                <span class="cat-name">DBT Delay</span>
               </div>
               <div class="cat-option" onclick="selectCat(this,'Wrong MSP Rate')">
-                <span class="cat-icon">❌</span><span class="cat-name">Wrong Rate</span>
+                <span class="cat-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>
+                </span>
+                <span class="cat-name">Rate Discrepancy</span>
               </div>
               <div class="cat-option" onclick="selectCat(this,'Staff Misbehavior')">
-                <span class="cat-icon">😠</span><span class="cat-name">Staff Issue</span>
+                <span class="cat-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <span class="cat-name">Staff Conduct</span>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Center / Location</label>
+            <label class="form-label">Procurement Center</label>
             <select class="form-select" id="cmp-center">
               <option>Mandi Road Procurement Center</option>
               <option>GT Road Procurement Hub</option>
@@ -521,23 +685,31 @@
             <input type="date" class="form-input" id="cmp-date" />
           </div>
           <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea class="form-input" id="cmp-desc" rows="3" placeholder="Describe what happened clearly..." style="resize:vertical"></textarea>
+            <label class="form-label">Incident Description</label>
+            <textarea class="form-input" id="cmp-desc" rows="3" placeholder="Provide factual details of the incident..." style="resize:vertical"></textarea>
           </div>
           <div class="form-group">
-            <label class="form-label">Photo Evidence <span class="hint">(Optional)</span></label>
-            <div class="photo-upload" onclick="simulatePhotoUpload()">
-              <div style="font-size:1.8rem">📷</div>
-              <div style="font-size:.85rem;color:var(--text-light);margin-top:.4rem">Tap to add photo</div>
+            <label class="form-label">Documentation Evidence <span class="hint">(Optional)</span></label>
+            <input type="file" id="evidence-file-input" accept="image/*,.pdf" multiple style="display:none" onchange="handleEvidenceUpload(event)" />
+            <div class="photo-upload" onclick="triggerEvidenceUpload()">
+              <div style="display:flex;align-items:center;justify-content:center;color:var(--text-light)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+              </div>
+              <div style="font-size:.85rem;color:var(--text-light);margin-top:.4rem">Click to select photos or weighbridge slip documents</div>
             </div>
             <div class="photo-preview" id="photo-preview"></div>
           </div>
-          <button class="btn btn-amber btn-full" onclick="submitComplaint()">Submit Complaint</button>
+          <button class="btn btn-amber btn-full" onclick="submitComplaint()">Submit Mandi Grievance</button>
         </div>
 
         <!-- Past Complaints -->
         <div class="card">
-          <div class="card-title"><span class="icon">📝</span> My Complaints</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </span>
+            Grievance History & Status
+          </div>
           <div id="complaints-list"></div>
         </div>
       </div>
@@ -545,56 +717,81 @@
       <!-- ---- PROFILE TAB ---- -->
       <div id="tab-profile" class="tab-content" style="display:none">
         <div class="card" style="text-align:center;padding:2rem 1rem">
-          <div style="width:72px;height:72px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:1rem" id="profile-avatar-big">R</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700" id="profile-name">Ramesh Kumar</div>
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:1rem" id="profile-avatar-big">R</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:700" id="profile-name">Ramesh Kumar</div>
           <div style="font-size:.88rem;color:var(--text-light);margin-top:.2rem" id="profile-phone">+91 98765 43210</div>
           <div style="margin-top:.8rem">
-            <span class="badge badge-green">✓ Aadhaar Verified</span>
-            <span class="badge badge-blue">Kisan ID: KSN-2024-7832</span>
+            <span class="badge badge-green" id="profile-aadhaar-badge">✓ Aadhaar Verified</span>
+            <span class="badge badge-blue" id="profile-kisan-id">Kisan ID: KSN-2026-7832</span>
           </div>
         </div>
         <div class="card">
-          <div class="card-title"><span class="icon">🏦</span> Bank Details</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+            </span>
+            <span data-i18n="sec_bank_acc">Disbursement Bank Account</span>
+          </div>
           <div style="display:grid;gap:.5rem;font-size:.88rem">
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Bank</span><strong>Punjab National Bank</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_designated_bank">Designated Bank</span><strong id="profile-bank-name">Punjab National Bank</strong></div>
             <div class="divider" style="margin:.3rem 0"></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Account</span><strong>XXXXXXXX4521</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_dbt_acc">DBT Account</span><strong class="tnum" id="profile-bank-acc">XXXXXXXX4521</strong></div>
             <div class="divider" style="margin:.3rem 0"></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">IFSC</span><strong>PUNB0001234</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_ifsc">IFSC Code</span><strong id="profile-bank-ifsc">PUNB0001234</strong></div>
           </div>
         </div>
         <div class="card">
-          <div class="card-title"><span class="icon">🌾</span> My Land Details</div>
+          <div class="card-title">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M2 12h20"/></svg>
+            </span>
+            <span data-i18n="sec_land_holding">Verified Land Holdings</span>
+          </div>
           <div style="display:grid;gap:.5rem;font-size:.88rem">
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Total Area</span><strong>4.5 Acres</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_acreage">Verified Acreage</span><strong id="profile-land-acreage">4.5 Acres</strong></div>
             <div class="divider" style="margin:.3rem 0"></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Khasra No.</span><strong>214/2, 215/1</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_khasra">Khasra Record</span><strong id="profile-khasra">214/2, 215/1</strong></div>
             <div class="divider" style="margin:.3rem 0"></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Village</span><strong>Raipur Kalan, Ludhiana</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_village">Revenue Village</span><strong id="profile-village">Raipur Kalan, Ludhiana</strong></div>
             <div class="divider" style="margin:.3rem 0"></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Registered Crops</span><strong>Wheat, Paddy</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)" data-i18n="lbl_crops">Permitted MSP Crops</span><strong id="profile-crops">Wheat, Paddy</strong></div>
           </div>
         </div>
-        <button class="btn btn-danger btn-full" onclick="logout()">Logout</button>
+        <button class="btn btn-danger btn-full" onclick="logout()" data-i18n="btn_logout" style="margin-top:1.25rem;margin-bottom:2rem">Logout</button>
       </div>
     </div>
 
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
       <button class="bnav-item active" onclick="showTab('home')" id="bnav-home">
-        <span class="bnav-icon">🏠</span><span>Home</span>
+        <span class="bnav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </span>
+        <span data-i18n="nav_home">Home</span>
       </button>
       <button class="bnav-item" onclick="showTab('book')" id="bnav-book">
-        <span class="bnav-icon">📅</span><span>Book Slot</span>
+        <span class="bnav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
+        </span>
+        <span data-i18n="nav_book">Book Slot</span>
       </button>
       <button class="bnav-item" onclick="showTab('bookings')" id="bnav-bookings">
-        <span class="bnav-icon">🎟️</span><span>My Tokens</span>
+        <span class="bnav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+        </span>
+        <span data-i18n="nav_passes">Gate Passes</span>
       </button>
       <button class="bnav-item" onclick="showTab('complaint')" id="bnav-complaint">
-        <span class="bnav-icon">🚨</span><span>Complaint</span>
+        <span class="bnav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17"/></svg>
+        </span>
+        <span data-i18n="nav_grievance">Grievance</span>
       </button>
       <button class="bnav-item" onclick="showTab('profile')" id="bnav-profile">
-        <span class="bnav-icon">👤</span><span>Profile</span>
+        <span class="bnav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        <span data-i18n="nav_profile">Kisan ID</span>
       </button>
     </div>
   </div>
@@ -602,34 +799,82 @@
   <!-- ===================== 4. ADMIN APP ===================== -->
   <div id="admin-app" class="screen">
     <div class="topbar admin-topbar">
-      <div class="topbar-brand">Agri<span style="color:var(--gold)">Q+</span> <span style="font-size:.85rem;font-weight:400;opacity:.7">Admin</span></div>
+      <div class="topbar-left">
+        <button class="topbar-back-btn" onclick="goBack()" aria-label="Go Back">
+          <span>←</span> <span>Back</span>
+        </button>
+        <div class="topbar-brand">Agri<span style="color:var(--gold)">Q+</span> <span style="font-size:.85rem;font-weight:400;opacity:.7">Admin</span></div>
+      </div>
       <button class="back-btn" onclick="logout()">Logout</button>
     </div>
 
     <div class="content-area fade-in">
-      <div class="section-header">📊 Dashboard Overview</div>
+      <div class="section-header" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        Procurement Overview & Live Analytics
+      </div>
       <div class="stats-grid" style="grid-template-columns:repeat(2,1fr)">
         <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Total Farmers Registered</span>
+            <div class="stat-icon-wrap emerald">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
           <div class="stat-num" id="adm-total">1,284</div>
-          <div class="stat-label">Total Farmers Today</div>
+          <div class="stat-trend positive">
+            <span class="trend-dot"></span> State-wide Daily Influx
+          </div>
         </div>
-        <div class="stat-card amber">
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Completed Weighings</span>
+            <div class="stat-icon-wrap amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
           <div class="stat-num" id="adm-processed">876</div>
-          <div class="stat-label">Slots Processed</div>
+          <div class="stat-trend neutral">
+            <span>68.2% Mandi Throughput Rate</span>
+          </div>
         </div>
-        <div class="stat-card gold">
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">DBT Disbursed Today</span>
+            <div class="stat-icon-wrap blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M2 12h20"/></svg>
+            </div>
+          </div>
           <div class="stat-num">₹2.3 Cr</div>
-          <div class="stat-label">MSP Paid Today</div>
+          <div class="stat-trend positive">
+            <span>Direct Bank Credits via PFMS</span>
+          </div>
         </div>
-        <div class="stat-card danger">
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Escalated Grievances</span>
+            <div class="stat-icon-wrap red">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17"/></svg>
+            </div>
+          </div>
           <div class="stat-num" id="adm-complaints">12</div>
-          <div class="stat-label">Pending Complaints</div>
+          <div class="stat-trend warning">
+            <span>4 High Priority Under Vigilance</span>
+          </div>
         </div>
       </div>
 
       <!-- Center-wise chart -->
       <div class="card">
-        <div class="card-title"><span class="icon">📊</span> Center-wise Throughput</div>
+        <div class="card-title">
+          <span class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          </span>
+          Center-wise Procurement Volume
+        </div>
         <div class="chart-container" style="height:180px">
           <canvas id="admin-chart"></canvas>
         </div>
@@ -637,13 +882,23 @@
 
       <!-- Active Complaints -->
       <div class="card">
-        <div class="card-title"><span class="icon">🚨</span> Active Complaints</div>
+        <div class="card-title">
+          <span class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17"/></svg>
+          </span>
+          Mandi Vigilance & Grievance Feed
+        </div>
         <div id="admin-complaints-list"></div>
       </div>
 
       <!-- Procurement Stats -->
       <div class="card">
-        <div class="card-title"><span class="icon">🌾</span> Crop-wise Procurement Today</div>
+        <div class="card-title">
+          <span class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M2 12h20"/></svg>
+          </span>
+          Crop-wise Procurement Tally
+        </div>
         <table class="price-table">
           <thead>
             <tr>
@@ -687,48 +942,85 @@
 
   <!-- ===================== 5. DISTRIBUTOR / AGENT APP ===================== -->
   <div id="distributor-app" class="screen">
-    <div class="topbar" style="background:#2E4A1E">
-      <div class="topbar-brand">Agri<span style="color:var(--gold)">Q+</span> <span style="font-size:.85rem;font-weight:400;opacity:.7">Agent</span></div>
+    <div class="topbar" style="background:#064E3B">
+      <div class="topbar-left">
+        <button class="topbar-back-btn" onclick="goBack()" aria-label="Go Back">
+          <span>←</span> <span>Back</span>
+        </button>
+        <div class="topbar-brand">Agri<span style="color:var(--gold)">Q+</span> <span style="font-size:.85rem;font-weight:400;opacity:.7">Center Agent</span></div>
+      </div>
       <button class="back-btn" onclick="logout()">Logout</button>
     </div>
 
     <div class="content-area fade-in">
       <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
         <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Verified</span>
+            <div class="stat-icon-wrap emerald" style="width:28px;height:28px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+          </div>
           <div class="stat-num" id="agent-done">42</div>
-          <div class="stat-label">Done Today</div>
+          <div class="stat-trend positive"><span>Gate Cleared</span></div>
         </div>
-        <div class="stat-card amber">
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Awaiting</span>
+            <div class="stat-icon-wrap amber" style="width:28px;height:28px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
           <div class="stat-num" id="agent-pending">18</div>
-          <div class="stat-label">Pending</div>
+          <div class="stat-trend neutral"><span>Inbound Queue</span></div>
         </div>
-        <div class="stat-card gold">
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Rejected</span>
+            <div class="stat-icon-wrap red" style="width:28px;height:28px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>
+            </div>
+          </div>
           <div class="stat-num" id="agent-rejected">3</div>
-          <div class="stat-label">Rejected</div>
+          <div class="stat-trend warning"><span>Moisture Fail</span></div>
         </div>
       </div>
 
       <!-- QR Scanner -->
       <div class="card">
-        <div class="card-title"><span class="icon">📷</span> Scan Farmer QR Code</div>
+        <div class="card-title">
+          <span class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+          </span>
+          Official Mandi Gate Pass Scanner
+        </div>
         <div class="scan-zone">
-          <div style="font-size:3rem;margin-bottom:.5rem">📱</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:.95rem;color:var(--text-light);margin-bottom:1rem">
-            Point camera at farmer's QR code<br />OR enter token manually below
+          <div style="display:flex;align-items:center;justify-content:center;color:var(--green-700);margin-bottom:.6rem">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><rect width="5" height="5" x="7" y="7"/><rect width="5" height="5" x="12" y="12"/><line x1="7" x2="7.01" y1="12" y2="12"/><line x1="12" x2="12.01" y1="7" y2="7"/></svg>
           </div>
-          <input type="text" class="scan-input" id="scan-input" placeholder="A-042" maxlength="10" />
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--text-light);margin-bottom:1rem">
+            Position scanner over farmer's digital e-Pass QR code or enter token ID
+          </div>
+          <input type="text" class="scan-input" id="scan-input" placeholder="e.g. A-042" maxlength="10" />
           <div style="display:flex;justify-content:center;gap:.5rem;margin-top:.7rem;flex-wrap:wrap">
-            <span class="quick-chip" onclick="document.getElementById('scan-input').value='A-041';verifyToken()">⚡ Test A-041 (Balwinder)</span>
-            <span class="quick-chip" onclick="document.getElementById('scan-input').value='A-042';verifyToken()">⚡ Test A-042 (Sukhdev)</span>
+            <span class="quick-chip" onclick="document.getElementById('scan-input').value='A-041';verifyToken()">Manifest A-041 (Balwinder)</span>
+            <span class="quick-chip" onclick="document.getElementById('scan-input').value='A-042';verifyToken()">Manifest A-042 (Sukhdev)</span>
           </div>
-          <button class="btn btn-primary" style="margin-top:1rem;width:100%" onclick="verifyToken()">✅ Verify Token</button>
+          <button class="btn btn-primary" style="margin-top:1rem;width:100%" onclick="verifyToken()">Verify Official Pass</button>
         </div>
         <div id="verify-result" style="display:none;margin-top:.8rem"></div>
       </div>
 
       <!-- Today's Queue -->
       <div class="card">
-        <div class="card-title"><span class="icon">📋</span> Today's Queue</div>
+        <div class="card-title">
+          <span class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
+          </span>
+          Today's Procurement Queue Manifest
+        </div>
         <div id="agent-queue-list"></div>
       </div>
     </div>
