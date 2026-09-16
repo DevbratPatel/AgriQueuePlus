@@ -1,6 +1,6 @@
 # AgriQueue+ 🌾
 
-**GovTech Smart Agricultural Procurement & APMC Mandi Queue Management System**
+**GovTech Smart Agricultural Procurement and APMC Mandi Queue Management System**
 
 AgriQueue+ is an enterprise-grade digital platform engineered to modernize agricultural market yard (APMC Mandi) procurement operations under Minimum Support Price (MSP) schemes. It connects the complete end-to-end supply chain:
 
