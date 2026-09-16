@@ -448,9 +448,42 @@ async function showPaymentTracker(idx) {
     </div>
 
     <div style="margin-top:1.1rem;display:flex;gap:.5rem">
-      <button class="btn btn-outline btn-full" onclick="showBookingPass()">View Official QR E-Pass</button>
+      <button class="btn btn-outline" style="flex:1" onclick="showBookingPass()">View Official QR E-Pass</button>
+      ${actVal ? `<button class="btn btn-primary" style="flex:1" onclick="printFarmerSlip(${activeTrackerIndex})">🖨️ Print Payment Slip</button>` : ''}
     </div>
   `;
+}
+
+function printFarmerSlip(idx) {
+  const b = myBookings[idx] || myBookings[activeTrackerIndex];
+  if (!b) return;
+
+  const estVal = b.estimatedAmount || Math.round((parseFloat(b.qty) || 25) * (b.price || 2275));
+  const finalAmount = b.actualAmount || estVal;
+  const netQtl = parseFloat(b.actualQty) || parseFloat(b.qty) || 25;
+  const netKg = netQtl * 100;
+  const tare = 7200;
+  const gross = netKg + tare;
+
+  const slipData = {
+    id: b.slipId || `WGH-${Date.now()}`,
+    token: b.token,
+    farmerName: b.farmerName || (window.currentUser && window.currentUser.name) || 'Ramesh Kumar',
+    farmerPhone: b.farmerPhone || (window.currentUser && window.currentUser.phone) || '+91 9876543210',
+    centerName: b.center || 'Regional APMC Hub',
+    commodity: b.crop || 'Wheat',
+    grossWeight: gross,
+    tareWeight: tare,
+    netWeightKg: netKg,
+    netQuintals: netQtl,
+    moisture: b.moisture || 12.5,
+    qualityGrade: b.grade || 'Grade-A (FAQ Standard)',
+    mspRate: b.price || 2275,
+    finalAmount: finalAmount,
+    recordedAt: b.weighedAt || b.createdAt || new Date().toISOString()
+  };
+
+  printOfficialWeighmentSlip(slipData);
 }
 
 function showBookingPass() {

@@ -308,6 +308,7 @@ async function submitWeighment(token) {
 
   if (res && res.success && res.weighment) {
     const w = res.weighment;
+    window.currentWeighmentData = w;
     result.innerHTML = `
       <div class="card" style="background:#F0FDF4;border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem;animation:fadeIn .3s ease">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -321,7 +322,7 @@ async function submitWeighment(token) {
         <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:.88rem;margin-bottom:1rem">
           <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--text-light)">Token / Manifest:</span><strong>${w.token}</strong></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--text-light)">Gross Vehicle Weight:</span><strong class="tnum">${w.grossWeight.toLocaleString()} kg</strong></div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--text-light)">Tare Tare Weight:</span><strong class="tnum">${w.tareWeight.toLocaleString()} kg</strong></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--text-light)">Tare Weight:</span><strong class="tnum">${w.tareWeight.toLocaleString()} kg</strong></div>
           <div class="divider" style="margin:.4rem 0"></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="font-weight:700">Accepted Net Quantity:</span><strong class="tnum" style="color:var(--green);font-size:1.05rem">${w.netWeightKg.toLocaleString()} kg (${w.netQuintals} Qtl)</strong></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--text-light)">Moisture Meter Level:</span><strong>${w.moisture}% (${w.qualityGrade})</strong></div>
@@ -335,7 +336,7 @@ async function submitWeighment(token) {
         </div>
 
         <div style="display:flex;gap:.5rem">
-          <button class="btn btn-outline" style="flex:1" onclick="window.print()">🖨️ Print Weighment Receipt</button>
+          <button class="btn btn-outline" style="flex:1" onclick="printOfficialWeighmentSlip(window.currentWeighmentData)">🖨️ Print Weighment Receipt</button>
           <button class="btn btn-primary" onclick="initDistributorApp();document.getElementById('verify-result').style.display='none'">Done & Next Inbound →</button>
         </div>
       </div>`;

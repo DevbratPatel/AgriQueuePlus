@@ -353,16 +353,40 @@ h4 {
   .quick-actions,
   .bnav-item,
   .screen:not(.active),
-  .tab-content:not(#tab-book) {
+  #landing, #auth, #admin-app {
     display: none !important;
   }
 
-  #landing, #auth, #admin-app, #distributor-app {
-    display: none !important;
-  }
-
-  #farmer-app {
+  /* Support Farmer E-Pass & Payment Slip Print */
+  #farmer-app.active {
     display: block !important;
+  }
+
+  /* Support Distributor / Weighbridge Slip Print */
+  #distributor-app.active {
+    display: block !important;
+  }
+
+  #distributor-app.active .dash-nav,
+  #distributor-app.active .distributor-actions,
+  #distributor-app.active #weighbridge-station,
+  #distributor-app.active .dist-section:not(#verify-result) {
+    display: none !important;
+  }
+
+  #distributor-app.active #verify-result {
+    display: block !important;
+    width: 100% !important;
+    max-width: 660px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  #distributor-app.active #verify-result .card {
+    background: #ffffff !important;
+    border: 2px solid #064E3B !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
   }
 
   .app-body {
