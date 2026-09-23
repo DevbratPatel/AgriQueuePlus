@@ -4,7 +4,18 @@
 
 AgriQueue+ is an enterprise-grade digital platform engineered to modernize agricultural market yard (APMC Mandi) procurement operations under Minimum Support Price (MSP) schemes. It connects the complete end-to-end supply chain:
 
-$$\text{Farmer Onboarding} \longrightarrow \text{Cryptographic OTP/JWT} \longrightarrow \text{Slot Capacity Booking} \longrightarrow \text{Tamper-Proof QR Gate Pass} \longrightarrow \text{Anti-Replay Gate Clearance} \longrightarrow \text{Electronic Weighbridge} \longrightarrow \text{Moisture \& Quality Grading} \longrightarrow \text{Backend MSP Computation} \longrightarrow \text{6-Stage PFMS DBT Tracking} \longrightarrow \text{Immutable Audit Trail}$$
+```mermaid
+flowchart LR
+    A["🌾 Farmer Onboarding"] --> B["🔐 Cryptographic OTP / JWT"]
+    B --> C["📅 Slot Capacity Booking"]
+    C --> D["🎫 Tamper-Proof QR Gate Pass"]
+    D --> E["🛡️ Anti-Replay Gate Clearance"]
+    E --> F["⚖️ Electronic Weighbridge"]
+    F --> G["🔍 Moisture & Quality Grading"]
+    G --> H["💰 Backend MSP Computation"]
+    H --> I["💳 6-Stage PFMS DBT Tracking"]
+    I --> J["📜 Immutable Audit Trail"]
+```
 
 ---
 
