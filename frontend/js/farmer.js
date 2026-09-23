@@ -230,7 +230,7 @@ async function confirmBooking() {
       centerId: center.id,
       date,
       slot,
-      farmerName: (currentUser && currentUser.name) || 'Ramesh Kumar'
+      farmerName: (currentUser && currentUser.name) || 'Registered Farmer'
     });
 
     if (res && res.success && res.booking) {
@@ -293,7 +293,7 @@ async function confirmBooking() {
   const dateSlotPassEl = document.getElementById('epass-date-slot');
   const hashPassEl = document.getElementById('epass-hash');
 
-  const farmerName = booking.farmerName || (currentUser && currentUser.name) || 'Ramesh Kumar';
+  const farmerName = booking.farmerName || (currentUser && currentUser.name) || 'Registered Farmer';
   if (fNameEl) fNameEl.textContent = farmerName;
   if (kIdEl) kIdEl.textContent = 'KSN-2026-' + activeToken.replace('A-0', '88');
   if (cropPassEl) cropPassEl.textContent = crop;
@@ -468,8 +468,8 @@ function printFarmerSlip(idx) {
   const slipData = {
     id: b.slipId || `WGH-${Date.now()}`,
     token: b.token,
-    farmerName: b.farmerName || (window.currentUser && window.currentUser.name) || 'Ramesh Kumar',
-    farmerPhone: b.farmerPhone || (window.currentUser && window.currentUser.phone) || '+91 9876543210',
+    farmerName: b.farmerName || (window.currentUser && window.currentUser.name) || 'Registered Farmer',
+    farmerPhone: b.farmerPhone || (window.currentUser && window.currentUser.phone) || '',
     centerName: b.center || 'Regional APMC Hub',
     commodity: b.crop || 'Wheat',
     grossWeight: gross,
@@ -511,7 +511,7 @@ function showBookingPass() {
   const hashPassEl = document.getElementById('epass-hash');
   const qrResult = document.getElementById('qr-result');
 
-  const farmerName = b.farmerName || (currentUser && currentUser.name) || 'Ramesh Kumar';
+  const farmerName = b.farmerName || (currentUser && currentUser.name) || 'Registered Farmer';
   if (tokenDisplay) tokenDisplay.textContent = b.token;
   if (tokenCenter) tokenCenter.textContent = b.center;
   if (fNameEl) fNameEl.textContent = farmerName;

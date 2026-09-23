@@ -93,29 +93,11 @@ exports.login = (req, res) => {
   let user = users.find(u => u.phone.replace(/\D/g, '').includes(cleanPhone));
 
   if (!user) {
-    // Seed new profile for authenticated phone
-    const isFarmer = role === 'farmer';
-    const isAdmin = role === 'admin';
-    user = {
-      id: 'USR-' + Date.now(),
-      name: isFarmer ? 'Ramesh Kumar' : isAdmin ? 'District Procurement Officer' : 'Ludhiana Mandi Agent',
-      phone: '+91 ' + cleanPhone.slice(0, 5) + ' ' + cleanPhone.slice(5),
-      role: role,
-      avatar: isFarmer ? 'R' : isAdmin ? 'A' : 'D',
-      kisanId: isFarmer ? `KSN-2026-${Math.floor(1000 + Math.random() * 9000)}` : null,
-      aadhaarMasked: 'XXXX-XXXX-4521',
-      state: 'Punjab',
-      bankName: 'Punjab National Bank',
-      bankAccount: 'XXXXXXXX4521',
-      bankIfsc: 'PUNB0001234',
-      landAcreage: '4.5 Acres',
-      khasra: '214/2, 215/1',
-      village: 'Raipur Kalan, Ludhiana',
-      crops: 'Wheat, Paddy, Mustard',
-      createdAt: new Date().toISOString()
-    };
-    users.push(user);
-    saveCollection('users', users);
+    return res.status(404).json({
+      success: false,
+      notRegistered: true,
+      message: 'This mobile number is not registered. Please switch to the Register tab to create your account first.'
+    });
   } else {
     // Ensure role matches requested role
     if (role && user.role !== role) {
@@ -140,6 +122,69 @@ exports.login = (req, res) => {
   return res.json({
     success: true,
     message: 'Authentication successful',
+    token,
+    user
+  });
+};
+
+// @route POST /api/auth/firebase-sync
+exports.firebaseSync = (req, res) => {
+  const { firebaseUid, email, name, role = 'farmer', phone = '', aadhaar = '', state = 'Punjab' } = req.body;
+  if (!firebaseUid && !email) {
+    return res.status(400).json({ success: false, message: 'Firebase UID or email is required' });
+  }
+
+  const users = getCollection('users');
+  const cleanPhone = phone ? phone.replace(/\D/g, '').slice(-10) : '';
+  
+  let user = users.find(u => 
+    (firebaseUid && u.firebaseUid === firebaseUid) ||
+    (email && u.email && u.email.toLowerCase() === email.toLowerCase()) ||
+    (cleanPhone && cleanPhone.length === 10 && u.phone && u.phone.replace(/\D/g, '').includes(cleanPhone))
+  );
+
+  if (!user) {
+    const isFarmer = role === 'farmer';
+    const displayName = (name && name.trim()) || (email ? email.split('@')[0] : 'User');
+    user = {
+      id: 'USR-' + Date.now(),
+      firebaseUid: firebaseUid || null,
+      name: displayName,
+      email: email || null,
+      phone: cleanPhone.length === 10 ? `+91 ${cleanPhone.slice(0, 5)} ${cleanPhone.slice(5)}` : (phone || '+91 98765 43210'),
+      role: role,
+      avatar: displayName.charAt(0).toUpperCase() || 'U',
+      kisanId: isFarmer ? `KSN-2026-${Math.floor(1000 + Math.random() * 9000)}` : null,
+      aadhaarMasked: aadhaar ? `XXXX-XXXX-${aadhaar.slice(-4)}` : 'XXXX-XXXX-4521',
+      state: state || 'Punjab',
+      village: 'Regional Center, ' + (state || 'Punjab'),
+      createdAt: new Date().toISOString()
+    };
+    users.push(user);
+    saveCollection('users', users);
+  } else {
+    if (firebaseUid && !user.firebaseUid) user.firebaseUid = firebaseUid;
+    if (email && !user.email) user.email = email;
+    if (name && name.trim() && user.name !== name.trim()) user.name = name.trim();
+    if (role && user.role !== role) user.role = role;
+    saveCollection('users', users);
+  }
+
+  const token = generateToken(user);
+
+  logAudit({
+    userId: user.id,
+    role: user.role,
+    action: 'AUTH_FIREBASE_SYNC',
+    entity: 'user',
+    entityId: user.id,
+    details: { email, role: user.role, firebaseUid },
+    ip: req.ip
+  });
+
+  return res.json({
+    success: true,
+    message: 'User authenticated and synchronized successfully',
     token,
     user
   });

@@ -80,6 +80,17 @@ const api = {
     return res;
   },
 
+  async firebaseSync(data) {
+    const res = await this.request('/auth/firebase-sync', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+    if (res && res.success && res.token) {
+      this.setToken(res.token);
+    }
+    return res;
+  },
+
   async getMe() {
     return this.request('/auth/me');
   },

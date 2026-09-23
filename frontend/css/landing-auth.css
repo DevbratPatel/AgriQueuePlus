@@ -341,3 +341,182 @@
   box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.2);
   transform: translateY(-2px);
 }
+
+/* Role Pills in Auth Header */
+.auth-role-pills {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.role-pill {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.role-pill:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.role-pill.active {
+  background: #ffffff;
+  color: var(--green-900);
+  border-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Unregistered Account Alert Box */
+.auth-alert-box {
+  background: #FEF3C7;
+  border: 1px solid #F59E0B;
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease;
+}
+
+.auth-alert-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.auth-alert-content strong {
+  color: #92400E;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.auth-alert-content p {
+  color: #78350F;
+  font-size: 0.82rem;
+  margin: 0.2rem 0 0.35rem;
+  line-height: 1.4;
+}
+
+/* Sub-tabs for Login Methods (Phone vs Email) */
+.auth-subtabs {
+  display: flex;
+  gap: 0.4rem;
+  background: #F1F5F9;
+  border-radius: var(--radius);
+  padding: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.auth-subtab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-light);
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.auth-subtab-btn.active {
+  background: #ffffff;
+  color: var(--green-700);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Social Sign-In Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.25rem 0 1rem;
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+  font-weight: 500;
+}
+
+/* Google Sign-In Button */
+.btn-google {
+  background: #ffffff;
+  color: #374151;
+  border: 1.5px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-google:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Register Form Note */
+.reg-note {
+  display: flex;
+  gap: 0.6rem;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+  font-size: 0.82rem;
+  color: #065F46;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}
+
+/* Footer Prompt & Link */
+.auth-footer-prompt {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.auth-link-btn {
+  background: none;
+  border: none;
+  color: var(--green-600);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.auth-link-btn:hover {
+  color: var(--green-800);
+}

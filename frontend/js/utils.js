@@ -436,8 +436,8 @@ function printOfficialWeighmentSlip(w) {
           qualityGrade: moistMatch ? moistMatch[2] : 'Grade-B (Minor Discoloration)',
           mspRate: mspMatch ? parseFloat(mspMatch[1].replace(/,/g, '')) : 2275,
           finalAmount: payoutMatch ? parseFloat(payoutMatch[1].replace(/,/g, '')) : 2693600,
-          farmerName: (window.currentUser && window.currentUser.name) || 'Ramesh Kumar (Registered Farmer)',
-          farmerPhone: (window.currentUser && window.currentUser.phone) || '+91 9876543210',
+          farmerName: (window.currentUser && window.currentUser.name) || 'Registered Farmer',
+          farmerPhone: (window.currentUser && window.currentUser.phone) || '',
           commodity: 'Wheat (Triticum aestivum)',
           centerName: 'Karnal Grain Market (APMC Yard #4)'
         };
@@ -463,8 +463,8 @@ function printOfficialWeighmentSlip(w) {
   const payout = parseFloat(w.finalAmount) || (netQtl * (parseFloat(w.mspRate) || 2275));
   const payoutStr = payout.toLocaleString('en-IN');
   const payoutWords = numberToIndianRupeesWords(payout);
-  const farmerName = w.farmerName || 'Ramesh Kumar (Registered Farmer)';
-  const farmerPhone = w.farmerPhone || '+91 9876543210';
+  const farmerName = w.farmerName || (window.currentUser && window.currentUser.name) || 'Registered Farmer';
+  const farmerPhone = w.farmerPhone || (window.currentUser && window.currentUser.phone) || '';
   const center = w.centerName || 'Karnal Grain Market (APMC Yard #4)';
   const crop = w.commodity || 'Wheat (Triticum aestivum)';
   const dateStr = w.recordedAt ? new Date(w.recordedAt).toLocaleString('en-IN', {
